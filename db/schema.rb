@@ -39,7 +39,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_081451) do
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.string "pending_email"
+    t.string "pending_email_token"
+    t.datetime "pending_email_token_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["pending_email_token"], name: "index_users_on_pending_email_token", unique: true
   end
 
   add_foreign_key "documents", "templates"

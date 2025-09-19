@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :user do
-    email { Faker::Internet.unique.email }
-    password { "longenough123" } # ≥ 12 Zeichen
+    sequence(:email) { |n| "user#{n}@example.com" }
+    password { "x" * 12 }
+    password_digest { BCrypt::Password.create(password) }
+    username { "Max" }
   end
 end

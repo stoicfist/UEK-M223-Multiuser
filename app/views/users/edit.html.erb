@@ -1,0 +1,24 @@
+<h1>Profil bearbeiten</h1>
+<%= form_with model: current_user, url: account_path, method: :patch do |f| %>
+  <div>
+    <%= f.label :username, "Benutzername" %><br>
+    <%= f.text_field :username %>
+  </div>
+  <div style="margin-top:10px;">
+    <%= f.submit "Profil speichern" %>
+  </div>
+<% end %>
+
+<hr>
+
+<h2>E-Mail-Adresse ändern</h2>
+<p>Aktuelle E-Mail: <strong><%= current_user.email %></strong></p>
+<%= form_with url: email_change_account_path, method: :post do |f| %>
+  <div>
+    <%= f.label :pending_email, "Neue E-Mail" %><br>
+    <%= f.email_field :pending_email, name: "user[pending_email]" %>
+  </div>
+  <div style="margin-top:10px;">
+    <%= f.submit "Bestätigungslink senden" %>
+  </div>
+<% end %>

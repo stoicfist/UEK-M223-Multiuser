@@ -1,0 +1,8 @@
+<h1>Mein Profil</h1>
+<p><strong>E-Mail:</strong> <%= current_user.email %></p>
+<p><strong>Benutzername:</strong> <%= current_user.username.presence || "—" %></p>
+
+<p>
+  <%= link_to "Profil bearbeiten", edit_account_path %> |
+  <%= link_to "Passwort ändern", edit_password_account_path %>
+</p>
