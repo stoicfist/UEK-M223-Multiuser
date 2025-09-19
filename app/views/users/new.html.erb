@@ -1,0 +1,7 @@
+<h1>Registrieren</h1>
+<%= form_with model: @user do |f| %>
+  <div>Email: <%= f.text_field :email %></div>
+  <div>Passwort: <%= f.password_field :password %></div>
+  <div>Bestätigen: <%= f.password_field :password_confirmation %></div>
+  <%= f.submit "Konto anlegen" %>
+<% end %>

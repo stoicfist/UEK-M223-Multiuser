@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @template %>
+
+<div>
+  <%= link_to "Edit this template", edit_template_path(@template) %> |
+  <%= link_to "Back to templates", templates_path %>
+
+  <%= button_to "Destroy this template", @template, method: :delete %>
+</div>
+
+<% if logged_in? %>
+  <%= button_to "Klonen", clone_to_document_template_path(@template), method: :post %>
+<% end %>
+
