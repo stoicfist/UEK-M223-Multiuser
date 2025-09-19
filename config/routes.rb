@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     post :clone_to_document, on: :member
   end
   resources :documents do
-    get :export_zip, on: :member
+    member do
+      get :export_zip
+    end
   end
 end

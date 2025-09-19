@@ -1,12 +1,31 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @document %>
+<%# Dokumentdaten anzeigen (du kannst dein Partial beibehalten, hier direkt und simpel:) %>
+<p><strong>User:</strong> <%= @document.user_id %></p>
+<p><strong>Template:</strong> <%= @document.template_id %></p>
+<p><strong>Title:</strong> <%= @document.title %></p>
+<p><strong>Body:</strong><br><%= simple_format @document.body %></p>
 
-<div>
+<hr>
+
+<p>
   <%= link_to "Edit this document", edit_document_path(@document) %> |
   <%= link_to "Back to documents", documents_path %>
+</p>
 
-  <%= button_to "Destroy this document", @document, method: :delete %>
-  
-  <%= link_to "Export ZIP", export_zip_document_path(@document) %>
-</div>
+<p>
+  <%= button_to "Destroy this document", @document, method: :delete,
+        form: { data: { turbo_confirm: "Wirklich löschen?" } } %>
+</p>
+
+<p>
+  <%= link_to "Export ZIP",
+              export_zip_document_path(@document),
+              data: { turbo: false } %>
+  <%# Alternative, falls du auf Nummer sicher gehen willst:
+  <%= button_to "Export ZIP",
+                export_zip_document_path(@document),
+                method: :get,
+                form: { data: { turbo: false } }
+  %>
+</p>

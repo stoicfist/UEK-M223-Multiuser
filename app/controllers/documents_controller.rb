@@ -44,19 +44,22 @@ class DocumentsController < ApplicationController
     redirect_to documents_path, notice: "Dokument gelöscht.", status: :see_other
   end
 
-  # GET /documents/1/export_zip
+  # Export to zip
   def export_zip
-    require "zip"
-    temp = Tempfile.new([ "latexhub-", ".zip" ])
-    Zip::OutputStream.open(temp.path) do |zos|
-      zos.put_next_entry("main.tex")
-      zos.write @document.body.to_s
-    end
-    send_file temp.path, type: "application/zip",
-      filename: "#{@document.title.parameterize}.zip"
-  ensure
-    temp.close! if temp
+  require "zip"
+
+  buffer = Zip::OutputStream.write_buffer do |zos|
+    zos.put_next_entry("main.tex")
+    zos.write @document.body.to_s
   end
+  buffer.rewind
+
+  send_data buffer.string,
+            filename: "#{@document.title.parameterize}.zip",
+            type: "application/zip",
+            disposition: "attachment"
+end
+
 
   private
 
