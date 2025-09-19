@@ -21,8 +21,8 @@ Rails.application.routes.draw do
 
   root "templates#index"
 
-  resources :users, only: [:new, :create]
-  resources :sessions, only: [:new, :create]
+  resources :users, only: [ :new, :create ]
+  resources :sessions, only: [ :new, :create ]
   get    "login"  => "sessions#new"
   delete "logout" => "sessions#destroy"
 

@@ -1,7 +1,7 @@
 class TemplatesController < ApplicationController
-  before_action :require_login, except: [:index, :show]
-  before_action :set_template, only: [:show, :edit, :update, :destroy, :clone_to_document]
-  before_action :authorize_owner!, only: [:edit, :update, :destroy]
+  before_action :require_login, except: [ :index, :show ]
+  before_action :set_template, only: [ :show, :edit, :update, :destroy, :clone_to_document ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
 
   # GET /templates
   def index

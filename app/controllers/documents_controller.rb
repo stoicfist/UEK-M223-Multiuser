@@ -1,7 +1,7 @@
 class DocumentsController < ApplicationController
   before_action :require_login
-  before_action :set_document, only: [:show, :edit, :update, :destroy, :export_zip]
-  before_action :authorize_owner!, only: [:show, :edit, :update, :destroy, :export_zip]
+  before_action :set_document, only: [ :show, :edit, :update, :destroy, :export_zip ]
+  before_action :authorize_owner!, only: [ :show, :edit, :update, :destroy, :export_zip ]
 
   # GET /documents
   def index
@@ -47,7 +47,7 @@ class DocumentsController < ApplicationController
   # GET /documents/1/export_zip
   def export_zip
     require "zip"
-    temp = Tempfile.new(["latexhub-", ".zip"])
+    temp = Tempfile.new([ "latexhub-", ".zip" ])
     Zip::OutputStream.open(temp.path) do |zos|
       zos.put_next_entry("main.tex")
       zos.write @document.body.to_s
