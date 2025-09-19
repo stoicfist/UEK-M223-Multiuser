@@ -1,8 +1,8 @@
 class SessionsController < ApplicationController
   def new; end
   def create
-    user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
+    user = User.authenticate_by(email: params[:email], password: params[:password])
+    if user
       session[:user_id] = user.id
       redirect_to root_path, notice: "Eingeloggt."
     else
