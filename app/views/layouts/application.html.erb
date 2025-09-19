@@ -23,6 +23,20 @@
   </head>
 
   <body>
-    <%= yield %>
+  <body>
+  <p style="margin: 8px 0;">
+    <% if logged_in? %>
+      Eingeloggt als <%= current_user.email %> ·
+      <%= button_to "Logout", logout_path, method: :delete, form: { data: { turbo_confirm: "Abmelden?" } }, class: "btn" %>
+    <% else %>
+      <%= link_to "Login", login_path %> |
+      <%= link_to "Registrieren", new_user_path %>
+    <% end %>
+  </p>
+
+  <% if notice %><p style="color: green"><%= notice %></p><% end %>
+  <% if alert  %><p style="color: red"><%= alert  %></p><% end %>
+
+  <%= yield %>
   </body>
 </html>

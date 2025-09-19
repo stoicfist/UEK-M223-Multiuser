@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create]
+  get    "login"  => "sessions#new"
   delete "logout" => "sessions#destroy"
 
   resources :templates do
