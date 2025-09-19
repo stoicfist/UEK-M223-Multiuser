@@ -57,3 +57,5 @@ end
 
 gem "bcrypt", "~> 3.1"
 gem "rubyzip", "~> 3.1"
+
+gem "pundit"
