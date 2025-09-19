@@ -8,7 +8,6 @@ on:
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,7 +23,6 @@ jobs:
 
   scan_js:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,3 +51,27 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Install system deps
+        run: sudo apt-get install -y libsqlite3-dev
+
+      - name: Prepare DB
+        env:
+          RAILS_ENV: test
+        run: bin/rails db:prepare
+
+      - name: Run RSpec
+        env:
+          RAILS_ENV: test
+        run: bundle exec rspec --format progress
