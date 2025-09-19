@@ -2,11 +2,11 @@ require "rails_helper"
 require "zip"  # nutzt rubyzip zum Lesen der Antwort
 
 RSpec.describe "Documents ZIP export", type: :request do
-  let(:owner)     { create(:user, password: "pw") }
-  let(:other)     { create(:user, password: "pw") }
+  let(:owner)     { create(:user) }
+  let(:other)     { create(:user) }
   let(:document)  { create(:document, user: owner, body: "Hello LaTeX") }
 
-  def login_as(user, password: "pw")
+  def login_as(user, password: "longenough123")
     post sessions_path, params: { email: user.email, password: password }
     follow_redirect! if response.redirect?
   end
