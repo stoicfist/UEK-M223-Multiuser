@@ -1,6 +1,6 @@
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  before_action :require_login, except: [:new, :create, :confirm_email]
+  before_action :require_login, except: [ :new, :create, :confirm_email ]
 
   # Registrierung (bereits vorhanden)
   def new; @user = User.new; end

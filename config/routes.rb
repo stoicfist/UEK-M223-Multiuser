@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :account, controller: "users", only: [:show, :edit, :update] do
+  resource :account, controller: "users", only: [ :show, :edit, :update ] do
     get   :edit_password
     patch :update_password
     post  :email_change       # neue E-Mail anstossen (Bestätigungslink)
