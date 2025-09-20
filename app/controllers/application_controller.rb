@@ -14,8 +14,9 @@ class ApplicationController < ActionController::Base
 
   def require_login
     return if logged_in?
-    redirect_to login_path, alert: "Bitte melde dich an."
+    redirect_to new_session_path, alert: "Bitte melde dich an."
   end
+
 
   # ---- Pundit: Unauthorisierte Zugriffe abfangen ----
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

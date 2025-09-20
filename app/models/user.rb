@@ -1,10 +1,15 @@
-# app/models/user.rb
 class User < ApplicationRecord
+  # Zulässige Rollen
+  ROLES = %w[user moderator admin].freeze
+
   has_secure_password
 
   # E-Mail vereinheitlichen
   normalizes :email, with: ->(e) { e.strip.downcase } if respond_to?(:normalizes)
   before_validation { self.email = email.to_s.strip.downcase } unless respond_to?(:normalizes)
+
+  # Default-Rolle setzen (falls du die Migration mit Default noch nicht hast)
+  before_validation { self.role = "user" if role.blank? }
 
   # Username
   validates :username, length: { maximum: 50 }, allow_blank: true
@@ -12,8 +17,20 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 12 }, if: -> { password.present? }
 
+  # Neue Validierung für Role
+  validates :role, inclusion: { in: ROLES }, allow_nil: true
+
+  # Rolle nur aus erlaubter Liste
+  validates :role, inclusion: { in: ROLES }, allow_blank: true
+
   has_many :templates, dependent: :destroy
   has_many :documents, dependent: :destroy
+
+
+# Rollen-Helper
+def admin? = role == "admin"
+def moderator? = role == "moderator"
+def user? = role == "user" || role.blank?
 
   # --- E-Mail-Änderung ---
   def start_email_change!(new_email)

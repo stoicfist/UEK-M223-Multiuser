@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
   root "templates#index"
 
+  namespace :admin do
+    resources :users, only: %i[index edit update]
+  end
+
   resources :users, only: [ :new, :create ]
   resources :sessions, only: [ :new, :create ]
   get    "login"  => "sessions#new"

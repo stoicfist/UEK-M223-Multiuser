@@ -48,6 +48,10 @@ group :development, :test do
   gem "rspec-rails", "~> 6.1"
   gem "factory_bot_rails"
   gem "faker"
+
+group :test do
+  gem "pundit-matchers", "~> 3.0"
+end
 end
 
 group :development do

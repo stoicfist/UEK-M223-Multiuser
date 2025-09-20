@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
-    password { "x" * 12 }
-    password_digest { BCrypt::Password.create(password) }
+    password { "SuperSicher123!" }  # >= 12 Zeichen
+    password_confirmation { password }
     username { "Max" }
+    role { "user" }
   end
 end

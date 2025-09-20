@@ -25,7 +25,12 @@
   <body>
   <body>
   <p style="margin: 8px 0;">
-   <% if logged_in? %>
+  
+  <% if current_user&.admin? %>
+  <li><%= link_to "Benutzerverwaltung", admin_users_path %></li>
+  <% end %>
+  
+  <% if logged_in? %>
   Eingeloggt als <%= current_user.email %> ·
   <%= link_to "Profil", account_path %> ·
   <%= link_to "Passwort ändern", edit_password_account_path %> ·
