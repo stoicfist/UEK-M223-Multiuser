@@ -13,16 +13,24 @@
 </thead>
 <tbody>
 <% @users.each do |u| %>
-<tr>
-<td><%= u.id %></td>
-<td><%= u.username.presence || "—" %></td>
-<td><%= u.email %></td>
-<td><%= u.role.presence || "user" %></td>
-<td><%= l(u.created_at, format: :short) rescue u.created_at.to_s %></td>
-<td>
-<%= link_to "Bearbeiten", edit_admin_user_path(u) %>
-</td>
-</tr>
+  <tr>
+    <td><%= u.id %></td>
+    <td><%= u.username.presence || "—" %></td>
+    <td><%= u.email %></td>
+    <td><%= u.role.presence || "user" %></td>
+    <td><%= l(u.created_at, format: :short) rescue u.created_at.to_s %></td>
+    <td>
+      <% if policy(u).update? %>
+        <%= link_to "Bearbeiten", edit_admin_user_path(u) %>
+      <% end %>
+      <% if policy(u).destroy? %>
+        <%= link_to "Löschen", admin_user_path(u), data: { turbo_method: :delete, turbo_confirm: "Sicher?" } %>
+      <% end %>
+      <% if policy(u).update_role? %>
+        <%= button_to "Rolle zu Admin", update_role_admin_user_path(u, user: { role: "admin" }), method: :patch %>
+      <% end %>
+    </td>
+  </tr>
 <% end %>
 </tbody>
 </table>

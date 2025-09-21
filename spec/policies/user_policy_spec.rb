@@ -1,33 +1,29 @@
+# spec/policies/user_policy_spec.rb
 require "rails_helper"
 
 RSpec.describe UserPolicy do
-  subject(:policy) { described_class }
+  subject { described_class }
 
-  let(:admin)  { build(:user, role: "admin") }
-  let(:member) { build(:user, role: "user") }
-  let(:other)  { build(:user, role: "user") }
+  let(:admin)     { build(:user, role: "admin") }
+  let(:moderator) { build(:user, role: "moderator") }
+  let(:user)      { build(:user, role: "user") }
+  let(:other)     { build(:user, role: "user") }
 
   permissions :index? do
-    it "allows admin to see index" do
-      expect(policy).to permit(admin, User)
-    end
-
-    it "denies non-admin index" do
-      expect(policy).not_to permit(member, User)
-    end
+    it { expect(subject).to permit(admin, User) }
+    it { expect(subject).to permit(moderator, User) }
+    it { expect(subject).not_to permit(user, User) }
   end
 
   permissions :update? do
-    it "allows user to update self" do
-      expect(policy).to permit(member, member)
-    end
+    it { expect(subject).to permit(admin, other) }
+    it { expect(subject).to permit(user, user) }
+    it { expect(subject).not_to permit(user, other) }
+  end
 
-    it "denies user to update others" do
-      expect(policy).not_to permit(member, other)
-    end
-
-    it "allows admin to update any" do
-      expect(policy).to permit(admin, other)
-    end
+  permissions :update_role? do
+    it { expect(subject).to permit(admin, other) }
+    it { expect(subject).not_to permit(moderator, other) }
+    it { expect(subject).not_to permit(user, other) }
   end
 end

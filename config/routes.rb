@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   root "templates#index"
 
   namespace :admin do
-    resources :users, only: %i[index edit update]
+    resources :users, only: [ :index, :edit, :update ] do
+      member { patch :update_role }
+    end
   end
 
   resources :users, only: [ :new, :create ]

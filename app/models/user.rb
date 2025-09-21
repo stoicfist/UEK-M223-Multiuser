@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  extend ActiveRecord::Enum
+
   # Zulässige Rollen
   ROLES = %w[user moderator admin].freeze
 
@@ -17,20 +19,19 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 12 }, if: -> { password.present? }
 
-  # Neue Validierung für Role
-  validates :role, inclusion: { in: ROLES }, allow_nil: true
-
   # Rolle nur aus erlaubter Liste
   validates :role, inclusion: { in: ROLES }, allow_blank: true
 
   has_many :templates, dependent: :destroy
   has_many :documents, dependent: :destroy
 
+  enum :role, { user: "user", moderator: "moderator", admin: "admin" }, prefix: true
 
-# Rollen-Helper
-def admin? = role == "admin"
-def moderator? = role == "moderator"
-def user? = role == "user" || role.blank?
+  # Fallback, falls alte Helper genutzt werden:
+  def admin?      = role_admin?
+  def moderator?  = role_moderator?
+  def user?       = role_user?
+
 
   # --- E-Mail-Änderung ---
   def start_email_change!(new_email)

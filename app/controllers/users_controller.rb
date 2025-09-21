@@ -3,9 +3,15 @@ class UsersController < ApplicationController
   before_action :require_login, except: [ :new, :create, :confirm_email ]
 
   # Registrierung (bereits vorhanden)
-  def new; @user = User.new; end
+
+  def new
+    @user = User.new
+    authorize @user
+  end
+
   def create
     @user = User.new(user_params)
+    authorize @user
     if @user.save
       session[:user_id] = @user.id
       redirect_to root_path, notice: "Willkommen!"
@@ -81,7 +87,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation)
   end
 
   # erlaubte Profil-Felder

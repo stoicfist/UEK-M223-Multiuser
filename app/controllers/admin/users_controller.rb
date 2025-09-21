@@ -1,40 +1,44 @@
-module Admin
-  class UsersController < ApplicationController
-    before_action :require_login
-    before_action :set_user, only: %i[ edit update ]
+  def index
+    @users = policy_scope(User)
+    authorize User
+  end
 
-    def index
-      authorize User # prüft UserPolicy#index?
-      @users = policy_scope(User).order(created_at: :desc)
+  def edit
+    @user = find_user
+    authorize @user
+  end
+
+  def update
+    @user = find_user
+    authorize @user
+    if @user.update(user_params_for_update)
+      redirect_to admin_users_path, notice: t(".updated")
+    else
+      render :edit, status: :unprocessable_entity
     end
+  end
 
-    def edit
-      authorize @user
+  def update_role
+    @user = find_user
+    authorize @user, :update_role?
+    if @user.update(role_params)
+      redirect_to admin_users_path, notice: t(".role_updated")
+    else
+      render :edit, status: :unprocessable_entity
     end
+  end
 
-    def update
-      authorize @user
+  private
 
-      # Basis-Felder, die Admin ändern darf
-      permitted = params.require(:user).permit(:email, :username, :password, :password_confirmation)
+  def find_user = User.find(params[:id])
 
-      # Rolle nur, wenn Admin dazu berechtigt
-      if policy(@user).update_role?
-        permitted[:role] = params[:user][:role]
-      end
+  # WICHTIG: Role Escalation verhindern
+  def user_params_for_update
+    params.require(:user).permit(:name, :email) # keine :role hier!
+  end
 
-      if @user.update(permitted)
-        redirect_to admin_users_path, notice: "Benutzer aktualisiert."
-      else
-        flash.now[:alert] = @user.errors.full_messages.to_sentence
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
-    private
-
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def role_params
+    # Nur auf explizitem, authorisierten Endpunkt erlauben:
+    params.require(:user).permit(:role)
   end
 end

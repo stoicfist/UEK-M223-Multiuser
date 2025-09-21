@@ -9,3 +9,7 @@ username: "Admin"
 )
 puts "Admin erstellt: admin@example.com"
 end
+
+User.find_or_create_by!(email: "admin@example.com")     { |u| u.password = "Password1!"; u.role = "admin" }
+User.find_or_create_by!(email: "mod@example.com")       { |u| u.password = "Password1!"; u.role = "moderator" }
+User.find_or_create_by!(email: "user@example.com")      { |u| u.password = "Password1!"; u.role = "user" }

@@ -17,11 +17,17 @@ class ApplicationController < ActionController::Base
     redirect_to new_session_path, alert: "Bitte melde dich an."
   end
 
+  # Bei allen mutierenden Aktionen sicherstellen:
+  after_action :verify_policy_scoped, if: -> { action_name == "index" }, unless: :pundit_skip?
 
   # ---- Pundit: Unauthorisierte Zugriffe abfangen ----
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
+
+  def pundit_skip?
+    %w[sessions passwords].include?(controller_name) # ergänze bei Bedarf
+  end
 
   def user_not_authorized
     redirect_back fallback_location: root_path,

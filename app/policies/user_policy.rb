@@ -1,27 +1,40 @@
+# app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
-  # Admin-Übersicht
+  # Zugriff auf /admin/users
   def index?
-    user&.admin?
+    admin? || moderator?  # Moderator darf z.B. lesen, aber nicht Rollen ändern
   end
 
-  # Admin darf beliebige User bearbeiten; User darf sein eigenes Profil bearbeiten
+  # Gäste dürfen Registrieren-Formular sehen & absenden
+  def new?     = user.nil? || admin?
+  def create?  = new?
+
+  def show?
+    admin? || owner?
+  end
+
   def update?
-    user&.admin? || user == record
+    return true if admin?
+    owner? # Nutzer darf nur sich selbst bearbeiten (ohne Rolle)
   end
 
-  def edit?
-    update?
-  end
-
-  # Rollen ändern nur Admin
   def update_role?
-    user&.admin?
+    admin? # ausschliesslich Admin
   end
 
-  # Admin-Index-Scope
+  def destroy?
+    admin? && !owner? # Admin darf alle ausser sich selbst löschen
+  end
+
   class Scope < Scope
     def resolve
-      user&.admin? ? scope.all : scope.none
+      if admin?
+        scope.all
+      elsif moderator?
+        scope.where.not(role: "admin")
+      else
+        scope.where(id: user.id)
+      end
     end
   end
 end

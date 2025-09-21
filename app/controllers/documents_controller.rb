@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents
   def index
-    @documents = current_user.documents
+    @documents = policy_scope(Document)
   end
 
   # GET /documents/1
