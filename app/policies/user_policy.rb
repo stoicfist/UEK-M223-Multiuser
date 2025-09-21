@@ -1,4 +1,3 @@
-# app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
   # Zugriff auf /admin/users
   def index?
@@ -28,9 +27,11 @@ class UserPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if admin?
+      return scope.none unless user
+
+      if user.role_admin?
         scope.all
-      elsif moderator?
+      elsif user.role_moderator?
         scope.where.not(role: "admin")
       else
         scope.where(id: user.id)

@@ -1,3 +1,4 @@
+class Admin::UsersController < ApplicationController
   def index
     @users = policy_scope(User)
     authorize User
@@ -30,7 +31,9 @@
 
   private
 
-  def find_user = User.find(params[:id])
+  def find_user
+    User.find(params[:id])
+  end
 
   # WICHTIG: Role Escalation verhindern
   def user_params_for_update
