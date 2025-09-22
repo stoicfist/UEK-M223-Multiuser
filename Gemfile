@@ -50,7 +50,7 @@ group :development, :test do
   gem "faker"
 
 group :test do
-  gem "pundit-matchers", "~> 3.0"
+  gem "pundit-matchers", "~> 4.0"
 end
 end
 
