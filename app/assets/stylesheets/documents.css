@@ -1,0 +1,46 @@
+/* Toolbar */
+.docs-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.docs-actions { display: flex; gap: .6rem; }
+
+/* Grid & Card */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.doc-card {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.doc-head { display: flex; justify-content: space-between; gap: .6rem; }
+.doc-title { margin: 0; font-size: 1.05rem; font-weight: 800; }
+.doc-badges { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+.chip {
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  border: 1.5px solid var(--card-border);
+}
+
+.doc-body { margin: .65rem 0 1rem; color: var(--muted); }
+.doc-foot { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: auto; }
+
+.empty-state {
+  border: 2px dashed var(--card-border);
+  border-radius: 14px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+}

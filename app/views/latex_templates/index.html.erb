@@ -4,26 +4,33 @@
   <!-- Sidebar: Filter -->
   <aside class="filter-panel">
     <h3>Filter</h3>
-    <%= form_with url: latex_templates_path, method: :get, local: true, class: "filter-form" do |f| %>
+
+    <%= form_with url: latex_templates_path, method: :get, local: true, class: "filter-form" do %>
       <div class="form-group">
-        <%= f.label :q, "Suche" %>
-        <%= f.text_field :q, value: params[:q], placeholder: "Titel oder Beschreibung…" , class: "form-control" %>
+        <label>Suche</label>
+        <input type="text" name="q" value="<%= params[:q] %>" class="input" placeholder="Titel oder Beschreibung…">
       </div>
 
       <div class="form-group">
-        <span class="label" style="display:block;font-weight:600;margin-bottom:.35rem;">Sichtbarkeit</span>
-        <label class="inline"><%= f.radio_button :visibility, "public",  checked: params[:visibility] == "public" %> public</label>
-        <label class="inline"><%= f.radio_button :visibility, "private", checked: params[:visibility] == "private" %> private</label>
+        <label>Sichtbarkeit</label>
+        <div class="radio">
+          <%= radio_button_tag :visibility, "public", params[:visibility] == "public", id: "vis_public" %>
+          <%= label_tag "vis_public", "public" %>
+        </div>
+        <div class="radio">
+          <%= radio_button_tag :visibility, "private", params[:visibility] == "private", id: "vis_private" %>
+          <%= label_tag "vis_private", "private" %>
+        </div>
       </div>
 
       <div class="form-group">
-        <%= f.label :owner, "Eigentümer" %>
-        <%= f.text_field :owner, value: params[:owner], placeholder: "E-Mail oder Name", class: "form-control" %>
+        <label>Eigentümer</label>
+        <input type="text" name="owner" value="<%= params[:owner] %>" class="input" placeholder="E-Mail oder Name">
       </div>
 
       <div class="actions">
-        <%= f.submit "Anwenden", class: "btn-primary" %>
-        <%= link_to "Zurücksetzen", latex_templates_path, class: "btn-secondary" %>
+        <button class="btn" type="submit">Anwenden</button>
+        <%= link_to "Zurücksetzen", latex_templates_path, class: "btn ghost" %>
       </div>
     <% end %>
   </aside>
@@ -48,9 +55,9 @@
 
             <p class="description"><%= truncate(lt.description.to_s, length: 120) %></p>
 
-            <footer>
-              <%= link_to "Anzeigen", latex_template_path(lt), class: "btn-secondary" %>
-              <%= link_to "Dokument", new_document_latex_template_path(lt), class: "btn-primary" %>
+            <footer class="card-actions">
+              <%= link_to "Anzeigen", latex_template_path(lt), class: "btn ghost" %>
+              <%= link_to "Dokument", new_document_latex_template_path(lt), class: "btn" %>
             </footer>
           </article>
         <% end %>

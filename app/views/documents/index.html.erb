@@ -1,16 +1,44 @@
-<p style="color: green"><%= notice %></p>
-
+<p class="notice"><%= notice %></p>
 <% content_for :title, "Documents" %>
 
-<h1>Documents</h1>
+<div class="docs-page">
+  <div class="docs-toolbar">
+    <h1>Documents</h1>
+    <div class="docs-actions">
+      <%= link_to "Neues Document", new_document_path, class: "btn" %>
+    </div>
+  </div>
 
-<div id="documents">
-  <% @documents.each do |document| %>
-    <%= render document %>
-    <p>
-      <%= link_to "Show this document", document %>
-    </p>
+  <% if @documents&.any? %>
+    <div class="docs-grid">
+      <% @documents.each do |document| %>
+        <article class="doc-card" id="<%= dom_id(document) %>">
+          <header class="doc-head">
+            <h3 class="doc-title"><%= document.title.presence || "Ohne Titel" %></h3>
+            <div class="doc-badges">
+              <span class="chip">User: <%= document.user_id %></span>
+              <span class="chip">Template: <%= document.template_id %></span>
+            </div>
+          </header>
+
+          <p class="doc-body"><%= truncate(document.body.to_s, length: 140) %></p>
+
+          <footer class="doc-foot">
+            <%= link_to "Anzeigen", document, class: "btn ghost" %>
+            <%= link_to "Bearbeiten", edit_document_path(document), class: "btn ghost" %>
+            <%= link_to "Löschen", document,
+                  class: "btn danger",
+                  data: { turbo_method: :delete, turbo_confirm: "Dokument wirklich löschen?" } %>
+          </footer>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      Keine Dokumente vorhanden.
+      <div style="margin-top:.6rem">
+        <%= link_to "Neues Document anlegen", new_document_path, class: "btn" %>
+      </div>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New document", new_document_path %>

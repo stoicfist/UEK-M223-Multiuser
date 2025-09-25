@@ -31,6 +31,32 @@
 .filter-form .inline { display: inline-flex; align-items: center; gap: .35rem; margin-right: .8rem; }
 .filter-form .actions { display: flex; gap: .6rem; }
 
+/* Radio-Reihe: eng, baseline-bündig */
+.filter-form .radio{
+  display:flex;
+  align-items:center;
+  gap:.4rem;           /* kontrollierter Abstand */
+  margin:.25rem 0;
+}
+.filter-form .radio input[type="radio"]{
+  margin:0;            /* Browser-Default entfernen (macht die Lücke) */
+  inline-size:auto;    /* Safari-Quirk */
+}
+.filter-form .radio label{
+  margin:0;            /* falls global Labels margin haben */
+  line-height:1.1;
+}
+
+/* Input-Optik (optional – falls noch nicht vorhanden) */
+.filter-form .input{
+  background:var(--input-bg);
+  color:var(--input-fg);
+  border:1.5px solid var(--input-border);
+  border-radius:10px;
+  padding:.55rem .7rem;
+  width:100%;
+}
+
 .templates-area h1 { margin: .25rem 0; }
 
 .templates-grid {
@@ -78,10 +104,89 @@
   display: flex; gap: .6rem; justify-content: flex-end;
 }
 
+/* Card-Footer für Buttons */
+.card-actions{
+  display:flex;
+  gap:.6rem;
+  margin-top:.8rem;
+}
+.card-actions .btn{ min-height:36px; }
+
 .empty-state {
   border: 2px dashed var(--card-border);
   border-radius: 12px;
   padding: 1.25rem;
   color: var(--muted);
   text-align: center;
+}
+
+/* ===== Navbar / Site Header ===== */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card-bg);
+  color: var(--card-fg);
+  padding: .7rem 1.2rem;
+  border-bottom: 2px solid var(--card-border);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+.nav-links a {
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav-links a:hover { color: var(--link); }
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .95rem;
+}
+.user-menu .user-email {
+  font-weight: 600;
+  color: var(--muted);
+}
+.user-menu a {
+  color: var(--link);
+  text-decoration: none;
+}
+.user-menu a:hover { text-decoration: underline; }
+
+.theme-toggle {
+  border: 1.5px solid var(--card-border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: 8px;
+  padding: .3rem .6rem;
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: color-mix(in oklab, var(--link) 14%, transparent);
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--muted);
 }

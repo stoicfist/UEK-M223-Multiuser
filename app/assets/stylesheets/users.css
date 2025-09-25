@@ -203,3 +203,65 @@ a:hover{ text-decoration-color: currentColor; }
   width: 100%;
   justify-content: center;
 }
+
+
+/* --- Seite & Karte --- */
+.form-page{max-width:860px; margin:1.75rem auto 3rem; padding:0 1rem; color:var(--fg);}
+.form-card{
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* --- Toolbar --- */
+.form-toolbar{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  padding:1rem;
+  border-bottom:1.5px solid var(--card-border);
+  background: color-mix(in oklab, var(--card-bg) 75%, transparent);
+}
+.form-toolbar h1{margin:0; font-size:1.5rem;}
+.toolbar-actions{display:flex; align-items:center; gap:.6rem;}
+
+/* --- Fehlerbox --- */
+.form-errors{
+  margin:1rem; padding:.9rem 1rem;
+  border:2px solid color-mix(in oklab, crimson 60%, var(--card-border));
+  border-radius:12px;
+  background: color-mix(in oklab, crimson 18%, transparent);
+}
+.form-errors ul{margin:.4rem 0 0 1rem}
+
+/* --- Grid & Felder --- */
+.nice-form{padding:1rem;}
+.form-grid{
+  display:grid; gap:1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 720px){ .form-grid{ grid-template-columns: 1fr; } }
+
+.form-group{display:flex; flex-direction:column; gap:.4rem;}
+label{font-weight:700;}
+.input,.select{
+  background: var(--input-bg); color: var(--input-fg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 10px; padding:.6rem .7rem; outline:0;
+}
+.input:focus,.select:focus{
+  border-color: var(--btn-bg);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--btn-bg) 35%, transparent);
+}
+.help{color:var(--muted);}
+
+/* --- Aktionen --- */
+.form-actions{
+  display:flex; flex-wrap:wrap; gap:.6rem;
+  padding: .5rem 1rem 1.2rem;
+  border-top:1.5px dashed var(--card-border);
+}
+
+/* Buttons – nutzt deine bestehenden Klassen */
+.btn{min-height:38px;}

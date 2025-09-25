@@ -17,23 +17,19 @@
             <th>E-Mail</th>
             <th style="width:140px">Rolle</th>
             <th class="hide-sm" style="width:180px">Erstellt</th>
-            <th class="actions">Aktionen</th>
+            <th>Aktionen</th>
           </tr>
         </thead>
         <tbody>
           <% @users.each do |u| %>
             <tr id="<%= dom_id(u) %>">
-              <td class="id muted"><%= u.id %></td>
+              <td class="muted"><%= u.id %></td>
               <td><%= u.username.presence || "—" %></td>
               <td><%= mail_to u.email %></td>
-              <td>
-                <span class="chip <%= (u.role.presence || "user") %>">
-                  <%= u.role.presence || "user" %>
-                </span>
-              </td>
+              <td><span class="chip <%= u.role.presence || "user" %>"><%= u.role.presence || "user" %></span></td>
               <td class="hide-sm muted"><%= l(u.created_at, format: :short) rescue u.created_at.to_s %></td>
               <td class="actions">
-                <div class="actions-row">
+                <div class="actions-row" style="display:flex; flex-direction:column; align-items:flex-start; gap:.4rem;">
                   <% if policy(u).update? %>
                     <%= link_to "Bearbeiten", edit_admin_user_path(u), class: "btn ghost" %>
                   <% end %>

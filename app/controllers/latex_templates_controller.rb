@@ -52,12 +52,8 @@ class LatexTemplatesController < ApplicationController
 
   def new_document
     authorize @latex_template
-    @prefill = {
-      first_name: current_user.username.to_s.split.first,
-      last_name:  current_user.username.to_s.split.drop(1).join(" "),
-      date:       Date.today.strftime("%d.%m.%Y"),
-      title:      @latex_template.title
-    }
+    @document = Document.new
+    @prefill = { title: "", date: "", first_name: "", last_name: "" } unless defined?(@prefill)
   end
 
   def create_document
