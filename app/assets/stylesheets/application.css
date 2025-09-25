@@ -8,3 +8,100 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+/* === Allgemeines Layout für Auth-Seiten === */
+.auth-container {
+  max-width: 400px;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #f9a825; /* Standard Light Mode Farbe */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.app-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  color: #222;
+}
+
+.auth-title {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Formular */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 2px solid #444;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Button */
+.btn-primary {
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #222;
+  padding: 0.7rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #222;
+}
+
+/* Footer */
+.auth-footer {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* === Dark Mode === */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #eee;
+  }
+
+  .auth-container {
+    background-color: #1e1e1e;
+    color: #eee;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  }
+
+  .form-group input {
+    background-color: #2c2c2c;
+    border: 2px solid #666;
+    color: #eee;
+  }
+
+  .btn-primary {
+    background-color: #f9a825;
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #f57f17;
+  }
+}
