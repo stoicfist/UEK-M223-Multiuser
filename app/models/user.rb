@@ -47,7 +47,7 @@ class User < ApplicationRecord
               pending_email_token_sent_at: Time.current)
 
       # Mail versenden (in DEV reicht Logausgabe; siehe Mailer unten)
-      UserMailer.email_change_confirmation(self).deliver_later
+      ::UserMailer.email_change_confirmation(self).deliver_later
       Rails.logger.debug "confirmation_link=#{Rails.application.routes.url_helpers.confirm_email_change_url(token:, host: Rails.application.config.action_mailer.default_url_options[:host])}"
     end
 

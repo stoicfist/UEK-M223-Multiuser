@@ -1,28 +1,58 @@
-<h1>Profil bearbeiten</h1>
-<%= form_with model: current_user, url: account_path, method: :patch do |f| %>
-  <div>
-    <%= f.label :username, "Benutzername" %><br>
-    <%= f.text_field :username %>
-  </div>
-  <div style="margin-top:10px;">
-    <%= f.submit "Profil speichern" %>
-  </div>
-<% end %>
+<% u = current_user %>
 
-<hr>
+<div class="account-page">
+  <div class="account-card">
+    <header class="account-head">
+      <div class="avatar"><span><%= u.username.to_s.first&.upcase || "U" %></span></div>
+      <div class="head-text">
+        <h1>Profil bearbeiten</h1>
+        <div class="muted"><%= u.email %></div>
+      </div>
+      <%= link_to "Zurück", documents_path, class: "btn ghost" %>
+    </header>
 
-<h2>E-Mail-Adresse ändern</h2>
-<p>Aktuelle E-Mail: <strong><%= current_user.email %></strong></p>
-<%= form_with url: email_change_account_path, method: :post do |f| %>
-  <div>
-    <%= f.label :pending_email, "Neue E-Mail" %><br>
-    <%= f.email_field :pending_email, name: "user[pending_email]" %>
-  </div>
-  <div style="margin-top:10px;">
-    <%= f.submit "Bestätigungslink senden" %>
-  </div>
-<% end %>
+    <% if u.errors.any? %>
+      <div class="form-errors">
+        <strong><%= pluralize(u.errors.count, "Fehler") %>:</strong>
+        <ul>
+          <% u.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<p style="margin-top:20px;">
-  <%= link_to "Zurück zu meinen Dokumenten", documents_path %>
-</p>
+    <section class="account-section">
+      <h2>Profil</h2>
+      <%= form_with model: u, url: account_path, method: :patch, local: true, class: "nice-form" do |f| %>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="user_username">Benutzername</label>
+            <%= f.text_field :username, id: "user_username", class: "input" %>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Profil speichern", class: "btn" %>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="account-section">
+      <h2>E-Mail ändern</h2>
+      <p class="muted">Aktuelle E-Mail: <strong><%= u.email %></strong></p>
+
+      <%= form_with url: email_change_account_path, method: :post, local: true, class: "nice-form" do |f| %>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="user_pending_email">Neue E-Mail</label>
+            <%= f.email_field :pending_email, id: "user_pending_email", name: "user[pending_email]", class: "input" %>
+            <small class="help">Du erhältst einen Bestätigungslink an die neue Adresse.</small>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Bestätigungslink senden", class: "btn ghost" %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>

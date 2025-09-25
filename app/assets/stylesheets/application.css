@@ -15,5 +15,9 @@
 @import "documents.css";
 @import "profile.css";
 @import "template_show.css";
+@import "account_edit.css";
+@import "account_password.css";
+@import "documents_form.css";
+@import "documents_show.css";
 
 /* Hier können noch projektweite Styles stehen, falls nötig */

@@ -52,6 +52,9 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
+  # Use asynchronous job processing (default queue name: "default").
+  config.active_job.queue_adapter = :async 
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 

@@ -1,0 +1,8 @@
+E-Mail-Adresse bestätigen
+
+Hallo <%= @user.username.presence || "" %>,
+
+bitte öffne diesen Link:
+<%= confirm_email_change_url(token: @user.email_change_token) %>
+
+Falls du das nicht warst, ignoriere diese E-Mail.

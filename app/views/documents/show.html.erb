@@ -1,31 +1,49 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, @document.title.presence || "Dokument" %>
 
-<%# Dokumentdaten anzeigen (du kannst dein Partial beibehalten, hier direkt und simpel:) %>
-<p><strong>User:</strong> <%= @document.user_id %></p>
-<p><strong>Template:</strong> <%= @document.template_id %></p>
-<p><strong>Title:</strong> <%= @document.title %></p>
-<p><strong>Body:</strong><br><%= simple_format @document.body %></p>
+<%# optional: Meldung %>
+<% if notice.present? %>
+  <p class="notice"><%= notice %></p>
+<% end %>
 
-<hr>
+<div class="doc-show">
+  <div class="card">
+    <header class="card-head">
+      <div>
+        <h1><%= @document.title.presence || "Dokument" %></h1>
+        <div class="meta">
+          <span class="chip">User: <%= @document.user_id %></span>
+          <span class="chip">Template: <%= @document.template_id %></span>
+        </div>
+      </div>
 
-<p>
-  <%= link_to "Edit this document", edit_document_path(@document) %> |
-  <%= link_to "Back to documents", documents_path %>
-</p>
+      <div class="actions">
+        <%= link_to "Bearbeiten", edit_document_path(@document), class: "btn ghost" %>
+        <%= link_to "Export ZIP", export_zip_document_path(@document),
+              class: "btn ghost", data: { turbo: false } %>
+        <%= button_to "Löschen", @document, method: :delete,
+              class: "btn danger",
+              form: { data: { turbo_confirm: "Wirklich löschen?" } } %>
+      </div>
+    </header>
 
-<p>
-  <%= button_to "Destroy this document", @document, method: :delete,
-        form: { data: { turbo_confirm: "Wirklich löschen?" } } %>
-</p>
+    <section class="section">
+      <h2>Body (frei)</h2>
+      <% if @document.body.present? %>
+        <pre class="code"><%= @document.body %></pre>
+      <% else %>
+        <p class="muted">Kein freier Body vorhanden.</p>
+      <% end %>
+    </section>
 
-<p>
-  <%= link_to "Export ZIP",
-              export_zip_document_path(@document),
-              data: { turbo: false } %>
-  <%# Alternative, falls du auf Nummer sicher gehen willst:
-  <%= button_to "Export ZIP",
-                export_zip_document_path(@document),
-                method: :get,
-                form: { data: { turbo: false } }
-  %>
-</p>
+    <% if @document.respond_to?(:compiled_body) && @document.compiled_body.present? %>
+      <section class="section">
+        <h2>Gerenderter Inhalt (compiled_body)</h2>
+        <pre class="code"><%= @document.compiled_body %></pre>
+      </section>
+    <% end %>
+
+    <footer class="foot">
+      <%= link_to "Zur Liste", documents_path, class: "btn ghost" %>
+    </footer>
+  </div>
+</div>

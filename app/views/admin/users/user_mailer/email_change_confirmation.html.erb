@@ -1,0 +1,7 @@
+<h1>E-Mail-Adresse bestätigen</h1>
+<p>Hallo <%= @user.username.presence || "!" %>,</p>
+<p>klicke auf den Link, um deine neue E-Mail zu bestätigen:</p>
+<p><a href="<%= confirm_email_change_url(token: @user.email_change_token) %>">
+  Adresse jetzt bestätigen
+</a></p>
+<p>Falls du das nicht warst, ignoriere diese E-Mail.</p>

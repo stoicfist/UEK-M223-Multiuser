@@ -1,0 +1,42 @@
+.doc-form { padding: 1rem; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 800px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.form-group { display: flex; flex-direction: column; gap: .4rem; }
+
+.input {
+  background: var(--input-bg);
+  color: var(--input-fg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 10px;
+  padding: .6rem .7rem;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--btn-bg);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--btn-bg) 35%, transparent);
+}
+
+.help { color: var(--muted); font-size: .85rem; }
+
+.form-actions {
+  display: flex;
+  gap: .6rem;
+  justify-content: flex-end;
+  margin-top: .8rem;
+}
+
+.form-errors {
+  margin-bottom: 1rem;
+  padding: .8rem 1rem;
+  border: 2px solid color-mix(in oklab, crimson 60%, var(--card-border));
+  border-radius: 12px;
+  background: color-mix(in oklab, crimson 18%, transparent);
+}

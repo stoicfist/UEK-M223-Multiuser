@@ -1,0 +1,51 @@
+.account-page{max-width:920px;margin:1.75rem auto 3rem;padding:0 1rem;color:var(--fg);}
+.account-card{
+  background:var(--card-bg);color:var(--card-fg);
+  border:2px solid var(--card-border);border-radius:14px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+
+/* Header */
+.account-head{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem;border-bottom:1.5px solid var(--card-border);
+  background:color-mix(in oklab,var(--card-bg) 75%,transparent);
+}
+.account-head h1{margin:.1rem 0;font-size:1.5rem;}
+.head-text{flex:1 1 auto}
+.avatar{
+  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  border:2px solid var(--card-border);font-weight:800;
+  background:linear-gradient(180deg,
+      color-mix(in oklab,var(--link) 18%,transparent),
+      color-mix(in oklab,var(--link) 8%,transparent));
+}
+.avatar span{font-size:1.25rem;}
+.muted{color:var(--muted);}
+
+/* Sektionen */
+.account-section{padding:1rem;border-top:1.5px dashed var(--card-border);}
+.account-section h2{margin:.2rem 0 1rem;font-size:1.1rem}
+
+/* Fehler */
+.form-errors{
+  margin:1rem; padding:.9rem 1rem;
+  border:2px solid color-mix(in oklab,crimson 60%,var(--card-border));
+  border-radius:12px;
+  background:color-mix(in oklab,crimson 18%,transparent);
+}
+
+/* Form-Layout (nutzt vorhandene Tokens) */
+.nice-form{padding:0 .2rem 0 0;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media (max-width:720px){.form-grid{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:.4rem;}
+.input{
+  background:var(--input-bg); color:var(--input-fg);
+  border:1.5px solid var(--input-border); border-radius:10px; padding:.6rem .7rem; outline:0;
+}
+.input:focus{border-color:var(--btn-bg); box-shadow:0 0 0 3px color-mix(in oklab,var(--btn-bg) 35%,transparent);}
+.help{color:var(--muted);}
+
+/* Actions */
+.form-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem;}
