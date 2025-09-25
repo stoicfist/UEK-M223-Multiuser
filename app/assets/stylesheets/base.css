@@ -1,0 +1,59 @@
+/* ========== Theme Tokens ========== */
+:root {
+  --bg: #f6f7f9;
+  --fg: #222;
+  --muted: #666;
+
+  --card-bg: #f9a825;
+  --card-fg: #222;
+  --card-border: #1d1d1d;
+
+  --input-bg: #fff;
+  --input-fg: #111;
+  --input-border: #444;
+
+  --btn-bg: #444;
+  --btn-fg: #fff;
+  --btn-border: #222;
+  --btn-bg-hover: #222;
+
+  --link: #1a73e8;
+  --shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+html[data-theme="dark"] {
+  /* Grundfarben */
+  --bg: #0f141a;          /* dunkles Slate */
+  --fg: #e6e9ee;          /* fast weiß */
+  --muted: #a7b2c0;
+
+  /* Karte/Container */
+  --card-bg: #1a2230;     /* dunkles Blau-Grau */
+  --card-fg: #e6e9ee;
+  --card-border: #273247;
+
+  /* Inputs */
+  --input-bg: #202a3a;
+  --input-fg: #e6e9ee;
+  --input-border: #334158;
+
+  /* Akzent (Buttons/Links) – kühles Blau */
+  --btn-bg: #3b82f6;      /* blue-500 */
+  --btn-fg: #0b1220;
+  --btn-border: transparent;
+  --btn-bg-hover: #2563eb;/* blue-600 */
+
+  --link: #93c5fd;        /* light blue */
+  --shadow: 0 8px 24px rgba(0,0,0,.6);
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.45;
+  margin: 0;
+}

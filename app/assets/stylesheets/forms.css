@@ -1,0 +1,73 @@
+/* ===== Document Create ===== */
+.doc-form-shell {
+  display: grid;
+  place-items: start center;
+  padding: 2rem 1rem;
+}
+
+.doc-form-card {
+  width: min(820px, 100%);
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.doc-form-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.doc-form-title {
+  margin: 0 0 .25rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.doc-meta { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.doc-desc { color: var(--muted); font-size: .95rem; }
+
+.doc-form .fields { display: grid; gap: 1rem; }
+.doc-form .two-cols { grid-template-columns: 1fr 1fr; }
+.doc-form .field.full { grid-column: 1 / -1; }
+
+@media (max-width: 640px) {
+  .doc-form .two-cols { grid-template-columns: 1fr; }
+}
+
+.field label {
+  display: block;
+  font-weight: 700;
+  margin: 0 0 .35rem;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .65rem .75rem;
+  border-radius: 10px;
+  border: 2px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-fg);
+  font-size: 1rem;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--link) 35%, transparent);
+}
+
+/* File input + help */
+.file-row { display: grid; gap: .4rem; }
+.help { color: var(--muted); font-size: .9rem; }
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}

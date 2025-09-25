@@ -1,36 +1,63 @@
-<h1>Benutzerübersicht</h1>
+<div class="users-page">
+  <h1>Benutzerverwaltung</h1>
 
-<table border="1" cellpadding="6" cellspacing="0">
-<thead>
-<tr>
-<th>ID</th>
-<th>Benutzername</th>
-<th>E-Mail</th>
-<th>Rolle</th>
-<th>Erstellt</th>
-<th>Aktionen</th>
-</tr>
-</thead>
-<tbody>
-<% @users.each do |u| %>
-  <tr>
-    <td><%= u.id %></td>
-    <td><%= u.username.presence || "—" %></td>
-    <td><%= u.email %></td>
-    <td><%= u.role.presence || "user" %></td>
-    <td><%= l(u.created_at, format: :short) rescue u.created_at.to_s %></td>
-    <td>
-      <% if policy(u).update? %>
-        <%= link_to "Bearbeiten", edit_admin_user_path(u) %>
-      <% end %>
-      <% if policy(u).destroy? %>
-        <%= link_to "Löschen", admin_user_path(u), data: { turbo_method: :delete, turbo_confirm: "Sicher?" } %>
-      <% end %>
-      <% if policy(u).update_role? %>
-        <%= button_to "Rolle zu Admin", update_role_admin_user_path(u, user: { role: "admin" }), method: :patch %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</tbody>
-</table>
+  <div class="users-card">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="muted">Benutzerübersicht</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:72px">ID</th>
+            <th>Benutzername</th>
+            <th>E-Mail</th>
+            <th style="width:140px">Rolle</th>
+            <th class="hide-sm" style="width:180px">Erstellt</th>
+            <th class="actions">Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |u| %>
+            <tr id="<%= dom_id(u) %>">
+              <td class="id muted"><%= u.id %></td>
+              <td><%= u.username.presence || "—" %></td>
+              <td><%= mail_to u.email %></td>
+              <td>
+                <span class="chip <%= (u.role.presence || "user") %>">
+                  <%= u.role.presence || "user" %>
+                </span>
+              </td>
+              <td class="hide-sm muted"><%= l(u.created_at, format: :short) rescue u.created_at.to_s %></td>
+              <td class="actions">
+                <div class="actions-row">
+                  <% if policy(u).update? %>
+                    <%= link_to "Bearbeiten", edit_admin_user_path(u), class: "btn ghost" %>
+                  <% end %>
+
+                  <% if policy(u).update_role? && !u.admin? %>
+                    <%= button_to "Rolle zu Admin",
+                          update_role_admin_user_path(u, user: { role: "admin" }),
+                          method: :patch,
+                          class: "btn",
+                          form: { class: "inline-form",
+                                  data: { turbo_confirm: "Diesen Benutzer wirklich zum Admin machen?" } } %>
+                  <% end %>
+
+                  <% if policy(u).destroy? %>
+                    <%= link_to "Löschen", admin_user_path(u),
+                          class: "btn danger",
+                          data: { turbo_method: :delete, turbo_confirm: "Sicher?" } %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

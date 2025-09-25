@@ -1,0 +1,205 @@
+/* ===== Theme Tokens (unverändert) ===== */
+:root{
+  --bg:#f6f7f9; --fg:#222; --muted:#666;
+  --card-bg:#f9a825; --card-fg:#222; --card-border:#1d1d1d;
+  --input-bg:#fff; --input-fg:#111; --input-border:#444;
+  --btn-bg:#444; --btn-fg:#fff; --btn-border:#222; --btn-bg-hover:#222;
+  --link:#1a73e8; --shadow:0 10px 30px rgba(0,0,0,.18);
+  --radius:14px; --radius-sm:10px; --pad:1rem;
+}
+html[data-theme="dark"]{
+  --bg:#0f141a; --fg:#e6e9ee; --muted:#a7b2c0;
+  --card-bg:#1a2230; --card-fg:#e6e9ee; --card-border:#273247;
+  --input-bg:#202a3a; --input-fg:#e6e9ee; --input-border:#334158;
+  --btn-bg:#3b82f6; --btn-fg:#0b1220; --btn-border:transparent; --btn-bg-hover:#2563eb;
+  --link:#93c5fd; --shadow:0 18px 40px rgba(0,0,0,.55);
+}
+
+body{background:var(--bg); color:var(--fg);}
+
+/* ===== Page/Card ===== */
+.users-page{max-width:1160px; margin:1.75rem auto 3rem; padding:0 1rem;}
+.users-page h1{letter-spacing:.2px; margin:.25rem 0 1rem;}
+
+.users-card{
+  color:var(--card-fg);
+  border:1.5px solid var(--card-border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  /* leichte plastische Fläche */
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--card-bg) 92%, #000 0%) 0%,
+                           color-mix(in oklab, var(--card-bg) 84%, #000 0%) 100%);
+}
+
+/* feiner innerer Rand */
+.users-card::after{
+  content:""; display:block; pointer-events:none;
+  inset:0; position:relative; border-top:1px solid rgba(0,0,0,.12);
+}
+
+/* ===== Toolbar ===== */
+.toolbar{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:calc(var(--pad) - .25rem) var(--pad);
+  border-bottom:1.5px solid var(--card-border);
+  background:color-mix(in oklab, var(--card-bg) 75%, transparent);
+}
+.toolbar-right,.toolbar-left{display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;}
+.muted{color:var(--muted); font-variant-numeric:tabular-nums;}
+
+/* Theme-Schalter */
+.theme-toggle{
+  display:inline-flex; align-items:center; gap:.55rem; border-radius:999px;
+  padding:.35rem .6rem; border:1.5px solid var(--card-border);
+  background:color-mix(in oklab, var(--card-bg) 65%, transparent);
+}
+.theme-toggle input{appearance:none; width:38px; height:20px; border-radius:999px;
+  background:var(--input-border); position:relative; outline:none; cursor:pointer;
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.08);
+}
+.theme-toggle input::after{
+  content:""; position:absolute; width:16px; height:16px; top:2px; left:2px; border-radius:50%;
+  background:var(--input-bg); transition:all .18s ease; box-shadow:0 2px 4px rgba(0,0,0,.25);
+}
+.theme-toggle input:checked{background:var(--btn-bg);}
+.theme-toggle input:checked::after{left:20px;}
+
+/* ===== Tabelle ===== */
+.table-wrap{overflow:auto;}
+.table{
+  width:100%; border-collapse:separate; border-spacing:0; min-width:820px;
+}
+.table thead th{
+  text-align:left; font-size:.86rem; letter-spacing:.02em; font-weight:800;
+  padding:.85rem 1rem;
+  background:color-mix(in oklab, var(--card-bg) 70%, #000 0%);
+  border-bottom:2px solid var(--card-border);
+  position:sticky; top:0; z-index:1;
+}
+.table tbody td{
+  padding:1rem; border-bottom:1px dashed color-mix(in oklab, var(--card-border) 80%, transparent);
+}
+.table tbody tr:nth-child(odd){
+  background:color-mix(in oklab, var(--card-bg) 58%, #000 0%);
+}
+.table tbody tr:hover{
+  background:color-mix(in oklab, var(--card-bg) 52%, #000 0%);
+  box-shadow:inset 0 1px 0 rgba(0,0,0,.06), inset 0 -1px 0 rgba(0,0,0,.06);
+}
+
+/* Kompaktere Zellen für ID/Aktionen */
+.table td.id{width:72px; color:var(--muted);}
+.table td.actions{width:320px;}
+
+/* ===== Badges ===== */
+.chip{
+  display:inline-flex; align-items:center; gap:.35rem; border-radius:999px;
+  padding:.22rem .6rem; font-size:.78rem; font-weight:800;
+  border:1.5px solid var(--card-border);
+  background:linear-gradient(180deg,
+      color-mix(in oklab, var(--link) 16%, transparent),
+      color-mix(in oklab, var(--link) 8%, transparent));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+}
+.chip.admin{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, gold 30%, transparent),
+      color-mix(in oklab, gold 16%, transparent));
+}
+.chip.moderator{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, orange 26%, transparent),
+      color-mix(in oklab, orange 12%, transparent));
+}
+.chip.user{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, var(--link) 20%, transparent),
+      color-mix(in oklab, var(--link) 10%, transparent));
+}
+
+/* ===== Buttons ===== */
+.actions-row{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;}
+.btn{
+  display:inline-flex; align-items:center; gap:.35rem; border-radius:var(--radius-sm);
+  padding:.55rem .8rem; line-height:1; font-weight:700;
+  border:1.5px solid var(--btn-border); background:var(--btn-bg); color:var(--btn-fg);
+  text-decoration:none; cursor:pointer; transition:transform .06s ease, background .15s ease, box-shadow .15s ease;
+  box-shadow:0 2px 0 rgba(0,0,0,.25);
+}
+.btn:hover{background:var(--btn-bg-hover); transform:translateY(-1px);}
+.btn:active{transform:translateY(0); box-shadow:0 1px 0 rgba(0,0,0,.25);}
+.btn.ghost{
+  background:transparent; color:var(--fg); border-color:var(--card-border);
+  box-shadow:none;
+}
+.btn.ghost:hover{
+  background:color-mix(in oklab, var(--card-bg) 50%, transparent);
+}
+.btn.danger{
+  background:color-mix(in oklab, crimson 70%, var(--btn-bg));
+  border-color:transparent;
+}
+.btn.danger:hover{
+  background:color-mix(in oklab, crimson 82%, var(--btn-bg-hover));
+}
+
+/* inline button_to */
+.inline-form{display:inline;}
+
+/* Links */
+a{color:var(--link); text-decoration:underline transparent; text-underline-offset:2px;}
+a:hover{ text-decoration-color: currentColor; }
+
+/* ===== Responsive (bis 780px) ===== */
+@media (max-width: 780px){
+  .users-card{border-radius:12px;}
+  .table{min-width:0;}
+  .hide-sm{display:none;}
+  .table td.actions{width:auto;}
+  .actions-row{gap:.4rem;}
+  .btn{padding:.5rem .7rem;}
+}
+
+/* Aktionen-Spalte bündig, nichts umbrechen */
+.table td.actions {
+  white-space: nowrap;
+  vertical-align: middle;
+  padding-right: 2rem; /* Abstand zum rechten Rand */
+}
+
+/* Row für Buttons: immer gleiche Grundlinie, kein Springen */
+.actions-row{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* button_to-Form nicht als Block (sonst verrutscht’s) */
+.inline-form{
+  display: inline;        /* wichtig */
+  margin: 0; padding: 0;  /* Safari/Firefox quirks */
+}
+
+/* Knopf-Höhen/Spacing angleichen */
+.btn{ line-height: 1; padding: .55rem .8rem; }
+.btn.ghost{ padding: .55rem .8rem; }
+.btn.danger{ padding: .55rem .8rem; }
+
+/* optional: gleiche Mindesthöhe für alle Buttons */
+.btn{ min-height: 36px; }
+
+/* Aktionen jetzt untereinander stapeln */
+.actions-row{
+  display: flex;
+  flex-direction: column;   /* statt row */
+  align-items: flex-start;  /* linksbündig */
+  gap: .4rem;               /* Abstand zwischen Buttons */
+}
+
+/* Buttons auf 100% Breite ausdehnen, wenn du magst */
+.actions-row .btn{
+  width: 100%;
+  justify-content: center;
+}

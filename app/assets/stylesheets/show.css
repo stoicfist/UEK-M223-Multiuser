@@ -1,0 +1,55 @@
+/* ===== Template Show Page ===== */
+.template-show {
+  text-align: left;
+}
+
+.template-details {
+  margin: 1rem 0 1.5rem;
+}
+
+.template-details .description {
+  margin: .4rem 0 1rem;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.code-section {
+  margin-top: 1rem;
+}
+
+.code-block {
+  background: var(--input-bg);
+  color: var(--input-fg);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--card-border);
+  max-height: 400px;
+  overflow: auto;
+  font-family: monospace;
+  font-size: .9rem;
+}
+
+.template-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+
+/* Danger Button */
+.btn-danger {
+  appearance: none;
+  border: 2px solid #b91c1c;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 700;
+  padding: .6rem .9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-danger:hover { background: #b91c1c; }
+
+/* Stelle sicher, dass nichts die Toolbar überdeckt */
+.card, .card * { pointer-events: auto; }
+.card-overlay { pointer-events: none; }
+.card-toolbar { position: relative; z-index: 2; }
