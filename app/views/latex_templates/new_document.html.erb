@@ -1,14 +1,59 @@
-<h1>Aus Template erzeugen: <%= @latex_template.title %></h1>
+<% content_for :title, "Aus Template erzeugen: #{@latex_template.title}" %>
 
-<%= form_with url: create_document_latex_template_path(@latex_template),
-              scope: :document, multipart: true do |f| %>
-  <div>Title:   <%= f.text_field :title,      value: @prefill[:title] %></div>
-  <div>Vorname: <%= f.text_field :first_name, value: @prefill[:first_name] %></div>
-  <div>Nachname:<%= f.text_field :last_name,  value: @prefill[:last_name] %></div>
-  <div>Datum:   <%= f.text_field :date,       value: @prefill[:date] %></div>
+<div class="doc-form-shell">
+  <section class="doc-form-card">
+    <header class="doc-form-head">
+      <div>
+        <h2 class="doc-form-title"><%= @latex_template.title %></h2>
+        <div class="doc-meta">
+          <span class="badge <%= @latex_template.visibility %>"><%= @latex_template.visibility %></span>
+          <% if @latex_template.description.present? %>
+            <span class="doc-desc"><%= @latex_template.description %></span>
+          <% end %>
+        </div>
+      </div>
+      <%= link_to "Zurück", latex_template_path(@latex_template), class: "btn-secondary" %>
+    </header>
 
-  <div>Optionales Bild: <%= f.file_field :image %></div>
-  <p><small>Wird automatisch mit \includegraphics eingebettet.</small></p>
+    <%= form_with url: create_document_latex_template_path(@latex_template),
+                  method: :post,
+                  local: true,
+                  multipart: true,
+                  class: "doc-form" do |f| %>
 
-  <%= f.submit "Dokument erzeugen" %>
-<% end %>
+      <div class="fields two-cols">
+        <div class="field">
+          <label for="title">Titel</label>
+          <%= f.text_field :title, value: @prefill[:title], class: "input" %>
+        </div>
+
+        <div class="field">
+          <label for="date">Datum</label>
+          <%= f.text_field :date, value: @prefill[:date], class: "input" %>
+        </div>
+
+        <div class="field">
+          <label for="first_name">Vorname</label>
+          <%= f.text_field :first_name, value: @prefill[:first_name], class: "input" %>
+        </div>
+
+        <div class="field">
+          <label for="last_name">Nachname</label>
+          <%= f.text_field :last_name, value: @prefill[:last_name], class: "input" %>
+        </div>
+
+        <div class="field full">
+          <label for="image">Optionales Bild</label>
+          <div class="file-row">
+            <%= f.file_field :image, accept: "image/*", class: "input file" %>
+            <span class="help">Wird automatisch mit \includegraphics eingebettet.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Dokument erzeugen", class: "btn-primary" %>
+      </div>
+    <% end %>
+  </section>
+</div>

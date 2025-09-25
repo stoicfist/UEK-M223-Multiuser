@@ -1,40 +1,49 @@
 <% content_for :title, @latex_template.title %>
 
-<div class="auth-container template-show">
-  <h1 class="auth-title"><%= @latex_template.title %></h1>
+<div class="page-wrap"><!-- NEU: sorgt für Außenabstand und max-width -->
 
-  <div class="template-details">
-    <p><strong>Sichtbarkeit:</strong>
-       <span class="badge <%= @latex_template.visibility %>"><%= @latex_template.visibility %></span>
-    </p>
+  <nav class="breadcrumb">
+    <%= link_to "Templates", latex_templates_path %> › <span><%= @latex_template.title %></span>
+  </nav>
 
-    <% if @latex_template.description.present? %>
-      <p><strong>Beschreibung:</strong></p>
-      <p class="description"><%= @latex_template.description %></p>
-    <% end %>
+  <div class="show-layout">
+    <!-- Linke Spalte -->
+    <aside class="side">
+      <h1 class="page-title"><%= @latex_template.title %></h1>
 
-    <details class="code-section">
-      <summary><strong>LaTeX-Code anzeigen</strong></summary>
-      <pre class="code-block"><%= @latex_template.body %></pre>
-    </details>
+      <div class="info-card">
+        <div class="info-lines">
+          <p><strong>Eigentümer:</strong> <%= @latex_template.user&.email || "unbekannt" %></p>
+          <p><strong>Sichtbarkeit:</strong> <%= @latex_template.visibility %></p>
+          <p><strong>Benutzt:</strong> <%= @latex_template.documents.count rescue 0 %>x</p>
+        </div>
+
+        <div class="card-actions">
+          <%= link_to "Template klonen",
+                      new_document_latex_template_path(@latex_template),
+                      class: "btn-primary btn-block" %>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Rechte Spalte -->
+    <section class="main">
+      <div class="toolbar">
+        <%= link_to "Zur Galerie", latex_templates_path, class: "btn-secondary" %>
+      </div>
+
+      <div class="preview-panel">
+        <h2>Vorschau (Auszug)</h2>
+
+        <% lines = @latex_template.body.to_s.lines.map(&:strip) %>
+        <div class="preview-snippet"><code><%= lines[0].presence || "% (leer)" %></code></div>
+        <div class="preview-snippet"><code><%= lines.find { _1.start_with?('\\begin{document}') } || "% (kein \\begin{document})" %></code></div>
+
+        <details class="code-details">
+          <summary>Kompletten LaTeX-Code anzeigen</summary>
+          <pre class="code-block"><%= @latex_template.body %></pre>
+        </details>
+      </div>
+    </section>
   </div>
-
-  <div class="template-actions">
-    <%= link_to "Dokument erzeugen", 
-                new_document_latex_template_path(@latex_template),
-                class: "btn-primary" %>
-
-    <% if current_user == @latex_template.user %>
-      <%= link_to "Bearbeiten", edit_latex_template_path(@latex_template), 
-                  class: "btn-secondary" %>
-      <%= button_to "Löschen", @latex_template, 
-                    method: :delete, 
-                    data: { confirm: "Sicher?" },
-                    class: "btn-danger" %>
-    <% end %>
-  </div>
-
-  <p class="auth-footer">
-    <%= link_to "Zurück", latex_templates_path %>
-  </p>
 </div>
