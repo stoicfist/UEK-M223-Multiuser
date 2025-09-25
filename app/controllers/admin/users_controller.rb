@@ -37,7 +37,10 @@ class Admin::UsersController < ApplicationController
 
   # WICHTIG: Role Escalation verhindern
   def user_params_for_update
-    params.require(:user).permit(:name, :email) # keine :role hier!
+    allowed = [:username, :email]
+    allowed += [:password, :password_confirmation] if params.dig(:user, :password).present?
+    allowed << :role if policy(@user).update_role?  # <- hier passiert die „Krönungs-Erlaubnis“
+    params.require(:user).permit(*allowed)
   end
 
   def role_params

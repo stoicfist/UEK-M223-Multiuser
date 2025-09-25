@@ -38,5 +38,8 @@ module Latexhub
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Set default locale to German
+    config.i18n.default_locale = :de
   end
 end

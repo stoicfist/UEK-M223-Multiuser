@@ -1,10 +1,12 @@
 # config/locales/de.yml
 de:
   pundit:
-    default: "Du bist für diese Aktion nicht berechtigt."
+    default: "Zugriff nicht erlaubt."
   admin:
     users:
       update:
         updated: "Benutzer aktualisiert."
       update_role:
         role_updated: "Rolle aktualisiert."
+      destroy:
+        destroyed: "Benutzer gelöscht."
