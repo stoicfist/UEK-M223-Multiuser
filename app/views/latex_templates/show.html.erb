@@ -1,49 +1,46 @@
-<% content_for :title, @latex_template.title %>
-
-<div class="page-wrap"><!-- NEU: sorgt für Außenabstand und max-width -->
-
-  <nav class="breadcrumb">
-    <%= link_to "Templates", latex_templates_path %> › <span><%= @latex_template.title %></span>
-  </nav>
-
-  <div class="show-layout">
-    <!-- Linke Spalte -->
-    <aside class="side">
-      <h1 class="page-title"><%= @latex_template.title %></h1>
-
-      <div class="info-card">
-        <div class="info-lines">
-          <p><strong>Eigentümer:</strong> <%= @latex_template.user&.email || "unbekannt" %></p>
-          <p><strong>Sichtbarkeit:</strong> <%= @latex_template.visibility %></p>
-          <p><strong>Benutzt:</strong> <%= @latex_template.documents.count rescue 0 %>x</p>
-        </div>
-
-        <div class="card-actions">
-          <%= link_to "Template klonen",
-                      new_document_latex_template_path(@latex_template),
-                      class: "btn-primary btn-block" %>
-        </div>
+<div class="tpl-show">
+  <header class="tpl-head">
+    <div class="tpl-title">
+      <h1><%= @latex_template.title %></h1>
+      <div class="tpl-meta">
+        <span class="chip owner">
+          Eigentümer: <%= @latex_template.user&.email || @latex_template.user_id %>
+        </span>
+        <span class="chip vis <%= @latex_template.visibility %>">
+          <%= @latex_template.visibility %>
+        </span>
+        <span class="chip uses">
+          Benutzt: <%= @latex_template.try(:usage_count) || "0x" %>
+        </span>
       </div>
-    </aside>
+    </div>
 
-    <!-- Rechte Spalte -->
-    <section class="main">
-      <div class="toolbar">
-        <%= link_to "Zur Galerie", latex_templates_path, class: "btn-secondary" %>
-      </div>
+    <div class="tpl-actions">
+      <%= link_to "Template klonen",
+                  new_document_path(template_id: @latex_template.id),
+                  class: "btn" %>
+      <%= link_to "Zur Galerie", latex_templates_path, class: "btn ghost" %>
+    </div>
+  </header>
 
-      <div class="preview-panel">
-        <h2>Vorschau (Auszug)</h2>
-
-        <% lines = @latex_template.body.to_s.lines.map(&:strip) %>
-        <div class="preview-snippet"><code><%= lines[0].presence || "% (leer)" %></code></div>
-        <div class="preview-snippet"><code><%= lines.find { _1.start_with?('\\begin{document}') } || "% (kein \\begin{document})" %></code></div>
-
-        <details class="code-details">
-          <summary>Kompletten LaTeX-Code anzeigen</summary>
-          <pre class="code-block"><%= @latex_template.body %></pre>
-        </details>
-      </div>
+  <% if @latex_template.description.present? %>
+    <section class="tpl-desc">
+      <p><%= @latex_template.description %></p>
     </section>
-  </div>
+  <% end %>
+
+  <section class="tpl-preview">
+    <h2>Vorschau (Auszug)</h2>
+    <pre class="preview-block"><%= truncate(@latex_template.body.to_s, length: 300) %></pre>
+
+    <details class="code-details">
+      <summary>Kompletten LaTeX-Code anzeigen</summary>
+      <div class="code-toolbar">
+        <button type="button" class="btn ghost" data-copy="#tpl-code">
+          In Zwischenablage kopieren
+        </button>
+      </div>
+      <pre id="tpl-code" class="code-block"><%= @latex_template.body %></pre>
+    </details>
+  </section>
 </div>
