@@ -16,9 +16,6 @@
     </div>
 
     <div class="tpl-actions">
-      <%= link_to "Template klonen",
-                  new_document_path(template_id: @latex_template.id),
-                  class: "btn" %>
       <%= link_to "Zur Galerie", latex_templates_path, class: "btn ghost" %>
     </div>
   </header>
@@ -42,5 +39,42 @@
       </div>
       <pre id="tpl-code" class="code-block"><%= @latex_template.body %></pre>
     </details>
+  </section>
+
+  <section class="tpl-generate">
+    <h2>Dokument aus Template erzeugen</h2>
+    <%= form_with url: documents_path,
+                  method: :post,
+                  local: true,
+                  multipart: true,
+                  html: { class: "doc-gen-form" } do |f| %>
+      <%= hidden_field_tag "document[template_id]", @latex_template.id %>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="doc_title">Titel</label>
+          <%= f.text_field :title, id: "doc_title", class: "input" %>
+        </div>
+        <div class="form-group">
+          <label for="doc_date">Datum</label>
+          <%= text_field_tag "document[params][date]", nil, id: "doc_date", class: "input" %>
+        </div>
+        <div class="form-group">
+          <label for="doc_first">Vorname</label>
+          <%= text_field_tag "document[params][first_name]", nil, id: "doc_first", class: "input" %>
+        </div>
+        <div class="form-group">
+          <label for="doc_last">Nachname</label>
+          <%= text_field_tag "document[params][last_name]", nil, id: "doc_last", class: "input" %>
+        </div>
+        <div class="form-group" style="grid-column:1/-1">
+          <label for="doc_image">Optionales Bild</label>
+          <%= file_field_tag "document[image]", id: "doc_image", class: "input" %>
+          <small class="help">Wird automatisch mit \includegraphics eingebettet.</small>
+        </div>
+      </div>
+      <div class="form-actions" style="display:flex;justify-content:flex-end;margin-top:.8rem">
+        <%= f.submit "Dokument erzeugen", class: "btn" %>
+      </div>
+    <% end %>
   </section>
 </div>

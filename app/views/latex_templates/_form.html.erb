@@ -40,3 +40,9 @@
 
   <%= f.submit (latex_template.persisted? ? "Speichern" : "Template anlegen"), class: "btn-primary" %>
 <% end %>
+
+<%= button_to "POST-Test",
+      documents_path,
+      method: :post,
+      params: { document: { title: "Test", template_id: @latex_template.id } },
+      form: { data: { turbo: false } } %>

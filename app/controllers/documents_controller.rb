@@ -22,6 +22,8 @@ class DocumentsController < ApplicationController
   # POST /documents
   def create
     @document = current_user.documents.new(document_params)
+    @document.render_from_latex_template!
+
     if @document.save
       redirect_to @document, notice: "Dokument erstellt."
     else
@@ -80,6 +82,9 @@ end
   end
 
   def document_params
-    params.require(:document).permit(:title, :body, :template_id)
+    params.require(:document).permit(
+      :title, :body, :template_id, :image,
+      params: {}
+    )
   end
 end
