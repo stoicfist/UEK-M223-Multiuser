@@ -1,9 +1,41 @@
-<h1>Mein Profil</h1>
-<p><strong>E-Mail:</strong> <%= current_user.email %></p>
-<p><strong>Benutzername:</strong> <%= current_user.username.presence || "—" %></p>
+<% u = current_user %>
 
-<p>
-  <%= link_to "Profil bearbeiten", edit_account_path %> |
-  <%= link_to "Passwort ändern", edit_password_account_path %> |
-  <%= link_to "Zurück zu meinen Dokumenten", documents_path %>
-</p>
+<div class="profile-page">
+  <div class="profile-card">
+    <header class="profile-header">
+      <div class="avatar"><span><%= u.username.to_s.first&.upcase || "U" %></span></div>
+      <div class="head-text">
+        <h1>Mein Profil</h1>
+        <div class="sub muted"><%= u.email %></div>
+      </div>
+      <% if u.respond_to?(:role) %>
+        <span class="chip <%= u.role || 'user' %>"><%= u.role || "user" %></span>
+      <% end %>
+    </header>
+
+    <div class="profile-grid">
+      <div class="field">
+        <div class="label">E-Mail</div>
+        <div class="value"><%= u.email %></div>
+      </div>
+
+      <div class="field">
+        <div class="label">Benutzername</div>
+        <div class="value"><%= u.username.presence || "—" %></div>
+      </div>
+
+      <% if u.respond_to?(:created_at) %>
+        <div class="field">
+          <div class="label">Mitglied seit</div>
+          <div class="value muted"><%= l(u.created_at, format: :long) rescue u.created_at.to_s %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <footer class="profile-actions">
+      <%= link_to "Profil bearbeiten", edit_account_path, class: "btn" %>
+      <%= link_to "Passwort ändern", edit_password_account_path, class: "btn ghost" %>
+      <%= link_to "Zu meinen Dokumenten", documents_path, class: "btn ghost" %>
+    </footer>
+  </div>
+</div>

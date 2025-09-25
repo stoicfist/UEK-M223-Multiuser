@@ -1,0 +1,67 @@
+/* Seite & Karte */
+.profile-page{max-width:880px; margin:1.75rem auto 3rem; padding:0 1rem; color:var(--fg);}
+.profile-card{
+  background:var(--card-bg); color:var(--card-fg);
+  border:2px solid var(--card-border); border-radius:14px;
+  box-shadow:var(--shadow); overflow:hidden;
+}
+
+/* Kopfzeile */
+.profile-header{
+  display:flex; align-items:center; gap:1rem;
+  padding:1rem; border-bottom:1.5px solid var(--card-border);
+  background:color-mix(in oklab, var(--card-bg) 75%, transparent);
+}
+.profile-header h1{margin:.1rem 0; font-size:1.5rem;}
+.profile-header .sub{margin-top:.15rem}
+.avatar{
+  width:56px; height:56px; border-radius:50%;
+  display:grid; place-items:center; font-weight:800;
+  border:2px solid var(--card-border);
+  background:linear-gradient(180deg,
+     color-mix(in oklab, var(--link) 18%, transparent),
+     color-mix(in oklab, var(--link) 8%, transparent));
+}
+.avatar span{font-size:1.25rem;}
+.head-text{flex:1 1 auto}
+
+/* Info-Grid */
+.profile-grid{
+  display:grid; grid-template-columns: 1fr 1fr; gap:1rem;
+  padding:1rem;
+}
+@media (max-width: 720px){ .profile-grid{ grid-template-columns:1fr; } }
+
+.field{background:transparent; border:1.5px dashed var(--card-border); border-radius:10px; padding:.75rem .9rem;}
+.label{font-weight:800; margin-bottom:.25rem;}
+.value{font-size:1rem;}
+.muted{color:var(--muted);}
+
+/* Rolle-Badge – nutzt deine Chip-Optik */
+.chip{
+  margin-left:auto;
+  display:inline-flex; align-items:center;
+  padding:.2rem .6rem; border-radius:999px; font-size:.78rem; font-weight:800;
+  border:1.5px solid var(--card-border);
+  background:linear-gradient(180deg,
+      color-mix(in oklab, var(--link) 16%, transparent),
+      color-mix(in oklab, var(--link) 8%, transparent));
+}
+.chip.admin{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, gold 30%, transparent),
+      color-mix(in oklab, gold 16%, transparent));
+}
+.chip.moderator{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, orange 26%, transparent),
+      color-mix(in oklab, orange 12%, transparent));
+}
+
+/* Footer-Aktionen */
+.profile-actions{
+  display:flex; gap:.6rem; flex-wrap:wrap;
+  padding: .75rem 1rem 1.1rem;
+  border-top:1.5px dashed var(--card-border);
+}
+.profile-actions .btn{min-height:38px;}
