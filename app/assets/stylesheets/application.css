@@ -584,3 +584,10 @@ html[data-theme="dark"] {
   .show-layout { grid-template-columns: 1fr; }
   .page-title  { margin-bottom: .6rem; }
 }
+
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2.5rem; /* Abstand zum linken Rand */
+  padding-right: 1.5rem;
+}
