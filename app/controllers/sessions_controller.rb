@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new; end
+  
   def create
     user = User.authenticate_by(email: params[:email], password: params[:password])
     if user
@@ -15,3 +16,5 @@ class SessionsController < ApplicationController
     redirect_to root_path, notice: "Abgemeldet."
   end
 end
+
+

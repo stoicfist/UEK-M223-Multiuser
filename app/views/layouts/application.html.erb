@@ -7,8 +7,8 @@
       var t = localStorage.getItem("theme") || "light";
       document.documentElement.dataset.theme = t; // <html data-theme="...">
     })();
-  </script>
-  
+    </script>
+    
     <title><%= content_for(:title) || "Latexhub" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,27 +31,39 @@
   </head>
 
   <body>
-  <body>
-  <p style="margin: 8px 0;">
-  <% if policy(User).index? %>
-    <%= link_to "Benutzerverwaltung", admin_users_path %>
-  <% end %>
-  
-  <% if logged_in? %>
-  Eingeloggt als <%= current_user.email %> ·
-  <%= link_to "Profil", account_path %> ·
-  <%= link_to "Passwort ändern", edit_password_account_path %> ·
-  <%= button_to "Logout", logout_path, method: :delete,
-        form: { data: { turbo_confirm: "Abmelden?" } }, class: "btn" %>
-<% else %>
-  <%= link_to "Login", login_path %> |
-  <%= link_to "Registrieren", new_user_path %>
-<% end %>
-  </p>
+    <header class="site-header" data-controller="theme">
+      <div class="brand">LaTeXHub</div>
 
-  <% if notice %><p style="color: green"><%= notice %></p><% end %>
-  <% if alert  %><p style="color: red"><%= alert  %></p><% end %>
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-label="Theme umschalten"
+        data-action="click->theme#toggle"
+        data-theme-target="button">
+        🌙 Dark
+      </button>
+    </header>
 
-  <%= yield %>
+    <p style="margin: 8px 0;">
+      <% if policy(User).index? %>
+        <%= link_to "Benutzerverwaltung", admin_users_path %>
+      <% end %>
+      
+      <% if logged_in? %>
+        Eingeloggt als <%= current_user.email %> ·
+        <%= link_to "Profil", account_path %> ·
+        <%= link_to "Passwort ändern", edit_password_account_path %> ·
+        <%= button_to "Logout", logout_path, method: :delete,
+              form: { data: { turbo_confirm: "Abmelden?" } }, class: "btn" %>
+      <% else %>
+        <%= link_to "Login", login_path %> |
+        <%= link_to "Registrieren", new_user_path %>
+      <% end %>
+    </p>
+
+    <% if notice %><p style="color: green"><%= notice %></p><% end %>
+    <% if alert  %><p style="color: red"><%= alert  %></p><% end %>
+
+    <%= yield %>
   </body>
 </html>

@@ -1,4 +1,3 @@
-# config/locales/de.yml
 de:
   pundit:
     default: "Zugriff nicht erlaubt."
@@ -10,3 +9,21 @@ de:
         role_updated: "Rolle aktualisiert."
       destroy:
         destroyed: "Benutzer gelöscht."
+
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      taken: "ist bereits vergeben"
+      blank: "muss ausgefüllt werden"
+      too_short:
+        one: "ist zu kurz (mindestens 1 Zeichen)"
+        other: "ist zu kurz (mindestens %{count} Zeichen)"
+      too_long:
+        one: "ist zu lang (höchstens 1 Zeichen)"
+        other: "ist zu lang (höchstens %{count} Zeichen)"
+
+  activerecord:
+    attributes:
+      user:
+        email: "E-Mail"
+        username: "Benutzername"

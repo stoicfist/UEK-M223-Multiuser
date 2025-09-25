@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
   # Auth
   resources :users,    only: [:new, :create]
+
   resources :sessions, only: [:new, :create, :destroy]
   get    "login"  => "sessions#new"
+  post   "login"  => "sessions#create"
   delete "logout" => "sessions#destroy"
 
   # Admin

@@ -3,10 +3,13 @@ def ensure_user!(email:, role:, username:, password: nil)
   user.username = username
   user.role     = role
 
-  # Passwort nur setzen, wenn neu oder noch kein PW vorhanden
-  if user.new_record? || user.password_digest.blank?
-    # Fallback: starkes Default-Passwort, falls keins übergeben
-    pwd = password.presence || "SuperSicheresPasswort!123" # >= 12 Zeichen
+  if password.present?
+    # Explizit gesetztes Passwort IMMER übernehmen
+    user.password              = password
+    user.password_confirmation = password
+  elsif user.new_record? || user.password_digest.blank?
+    # Fallback nur, wenn neu oder noch kein Passwort vorhanden
+    pwd = "SuperSicheresPasswort!123"
     user.password              = pwd
     user.password_confirmation = pwd
   end
@@ -19,21 +22,21 @@ admin = ensure_user!(
   email: "admin@example.com",
   role:  "admin",
   username: "Admin",
-  password: "SuperSicheresPasswort!"    # 23 Zeichen
+  password: "SuperSicheresPasswort!"
 )
 
 ensure_user!(
   email: "mod@example.com",
   role:  "moderator",
   username: "Moderator",
-  password: "SuperSicheresPasswort!123"    # >=12
+  password: "SuperSicheresPasswort!123"
 )
 
 ensure_user!(
   email: "user@example.com",
   role:  "user",
   username: "User",
-  password: "SuperSicheresPasswort!123"    # >=12
+  password: "SuperSicheresPasswort!123"
 )
 
-puts "Admin bereit: #{admin.email}"
+puts "All Done!"
