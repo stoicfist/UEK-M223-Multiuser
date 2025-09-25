@@ -1,106 +1,170 @@
 /*
  * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * With Propshaft, assets are served efficiently without preprocessing steps.
+ * You can still include application-wide styles in this file.
  */
-/* === Allgemeines Layout für Auth-Seiten === */
+
+/* ========== Theme Tokens ========== */
+:root {
+  --bg: #f6f7f9;
+  --fg: #222;
+  --muted: #666;
+
+  --card-bg: #f9a825;
+  --card-fg: #222;
+  --card-border: #1d1d1d;
+
+  --input-bg: #fff;
+  --input-fg: #111;
+  --input-border: #444;
+
+  --btn-bg: #444;
+  --btn-fg: #fff;
+  --btn-border: #222;
+  --btn-bg-hover: #222;
+
+  --link: #1a73e8;
+  --shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+html[data-theme="dark"] {
+  --bg: #0f0f10;
+  --fg: #eaeaea;
+  --muted: #a9a9a9;
+
+  --card-bg: #1e1e1e;
+  --card-fg: #eaeaea;
+  --card-border: #2c2c2c;
+
+  --input-bg: #2a2a2a;
+  --input-fg: #eaeaea;
+  --input-border: #555;
+
+  --btn-bg: #f9a825;
+  --btn-fg: #0b0b0b;
+  --btn-border: transparent;
+  --btn-bg-hover: #f57f17;
+
+  --link: #8ab4f8;
+  --shadow: 0 6px 18px rgba(0,0,0,.55);
+}
+
+/* ========== Base ========== */
+html, body {
+  height: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Header + Toggle */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .8rem 1rem;
+}
+.brand { font-weight: 800; letter-spacing: .3px; }
+.theme-toggle {
+  border: 1.5px solid var(--card-border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: 8px;
+  padding: .35rem .7rem;
+  cursor: pointer;
+}
+
+/* ========== Auth Box (Login/Registrieren) ========== */
 .auth-container {
-  max-width: 400px;
-  margin: 5% auto;
-  padding: 2rem;
-  border-radius: 10px;
-  background-color: #f9a825; /* Standard Light Mode Farbe */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 1.6rem;
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  box-shadow: var(--shadow);
   text-align: center;
 }
 
 .app-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.2rem;
-  color: #222;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: .2rem 0 .1rem;
 }
 
 .auth-title {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.2rem;
+  color: var(--fg);
 }
 
 /* Formular */
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  text-align: left;
-}
+.auth-form { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
 
 .form-group label {
   display: block;
-  font-weight: bold;
-  margin-bottom: 0.3rem;
+  font-weight: 600;
+  margin-bottom: .35rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.6rem;
-  border: 2px solid #444;
-  border-radius: 5px;
+  padding: .6rem .7rem;
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--input-fg);
   font-size: 1rem;
+  outline: none;
+}
+.form-group input:focus {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--link) 35%, transparent);
+  border-color: var(--link);
 }
 
-/* Button */
 .btn-primary {
-  background-color: #444;
-  color: white;
-  font-weight: bold;
-  border: 2px solid #222;
-  padding: 0.7rem;
-  border-radius: 5px;
+  appearance: none;
+  border: 2px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 700;
+  padding: .7rem .9rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform .02s ease, background .15s ease;
 }
+.btn-primary:hover { background: var(--btn-bg-hover); }
+.btn-primary:active { transform: translateY(1px); }
 
-.btn-primary:hover {
-  background-color: #222;
-}
+.auth-footer { margin-top: 1.1rem; font-size: .95rem; color: var(--muted); }
+.auth-footer a { color: var(--link); text-decoration: none; }
+.auth-footer a:hover { text-decoration: underline; }
 
-/* Footer */
-.auth-footer {
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-}
-
-/* === Dark Mode === */
+/* === Dark Mode via prefers-color-scheme (Fallback) === */
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #121212;
     color: #eee;
   }
-
   .auth-container {
     background-color: #1e1e1e;
     color: #eee;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   }
-
   .form-group input {
     background-color: #2c2c2c;
     border: 2px solid #666;
     color: #eee;
   }
-
   .btn-primary {
     background-color: #f9a825;
     color: #000;
     border: none;
   }
-
   .btn-primary:hover {
     background-color: #f57f17;
   }
