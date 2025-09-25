@@ -1,5 +1,12 @@
-<% content_for :title, "Editing template" %>
-<h1>Edit template</h1>
-<%= render "form", latex_template: @latex_template %>
-<%= link_to "Back", latex_templates_path %>
-<%= link_to "Show", @latex_template %>
+<% content_for :title, "Template bearbeiten" %>
+
+<div class="auth-container">
+  <h1 class="auth-title">Template bearbeiten</h1>
+  
+  <%= render "form", latex_template: @latex_template %>
+  
+  <p class="auth-footer">
+    <%= link_to "Anzeigen", @latex_template %> |
+    <%= link_to "Zurück", latex_templates_path %>
+  </p>
+</div>

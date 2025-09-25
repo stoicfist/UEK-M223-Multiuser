@@ -1,51 +1,42 @@
-<%= form_with model: latex_template do |f| %>
+<%= form_with model: latex_template, local: true, class: "auth-form" do |f| %>
   <% if latex_template.errors.any? %>
-    <div style="color:red">
-      <h2><%= pluralize(latex_template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <div class="error-messages">
+      <h3><%= pluralize(latex_template.errors.count, "Fehler") %> verhinderten das Speichern:</h3>
       <ul>
-        <% latex_template.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+        <% latex_template.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title, style: "display:block" %>
+  <div class="form-group">
+    <%= f.label :title, "Titel" %>
     <%= f.text_field :title %>
   </div>
 
-  <div class="field">
-    <%= f.label :visibility, style: "display:block" %>
+  <div class="form-group">
+    <%= f.label :visibility, "Sichtbarkeit" %>
     <%= f.select :visibility,
                  options_for_select(LatexTemplate.visibilities.keys, latex_template.visibility),
-                 include_blank: false %>
+                 {}, {} %>
   </div>
 
-  <div class="field">
-    <%= f.label :description, style: "display:block" %>
+  <div class="form-group">
+    <%= f.label :description, "Kurzbeschreibung" %>
     <%= f.text_area :description, rows: 4 %>
   </div>
 
-  <div class="field">
-    <%= f.label :body, "LaTeX-Body", style: "display:block" %>
+  <div class="form-group">
+    <%= f.label :body, "LaTeX-Body" %>
     <%= f.text_area :body, rows: 20 %>
   </div>
 
-  <p><small>
-    Platzhalter: <code>{{ first_name }}</code>, <code>{{ last_name }}</code>, <code>{{ date }}</code>.<br>
+  <p class="auth-footer">
+    Platzhalter: <code>{{ first_name }}</code>, <code>{{ last_name }}</code>, <code>{{ date }}</code>.
     Optionales Bild:
-    <code>{% if image_path %}\includegraphics[width=\textwidth]{ {{ image_path }} }{% endif %}</code>
-  </small></p>
+    <code>{% raw %}{% if image_path %}{% endraw %}\includegraphics[width=\textwidth]{ {% raw %}{{ image_path }}{% endraw %} } {% raw %}{% endif %}{% endraw %}</code>
+  </p>
 
-  <div class="actions"><%= f.submit %></div>
-
-  <div class="field">
-    <%= f.label :body, "LaTeX-Body", style: "display:block" %>
-    <%= f.text_area :body, rows: 20 %>
-  </div>
-
-  <p><small>
-    Platzhalter z. B.: <code>{{ first_name }}</code>, <code>{{ last_name }}</code>, <code>{{ date }}</code>.<br>
-    Optionales Bild:
-    <code>{% raw %}{% if image_path %}{% endraw %}\includegraphics[...]{ {% raw %}{{ image_path }}{% endraw %} } {% raw %}{% endif %}{% endraw %}</code>
-  </small></p>
+  <%= f.submit (latex_template.persisted? ? "Speichern" : "Template anlegen"), class: "btn-primary" %>
 <% end %>

@@ -1,16 +1,40 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, @latex_template.title %>
 
-<h2><%= @latex_template.title %></h2>
-<p><strong>Visibility:</strong> <%= @latex_template.visibility %></p>
-<p><strong>Description:</strong> <%= @latex_template.description %></p>
-<p><strong>Body:</strong><br><pre><%= @latex_template.body %></pre></p>
+<div class="auth-container template-show">
+  <h1 class="auth-title"><%= @latex_template.title %></h1>
 
-<div>
-  <%= link_to "Edit", edit_latex_template_path(@latex_template) %> |
-  <%= link_to "Back", latex_templates_path %>
-  <%= button_to "Destroy", @latex_template, method: :delete, data: { confirm: "Sicher?" } %>
+  <div class="template-details">
+    <p><strong>Sichtbarkeit:</strong>
+       <span class="badge <%= @latex_template.visibility %>"><%= @latex_template.visibility %></span>
+    </p>
+
+    <% if @latex_template.description.present? %>
+      <p><strong>Beschreibung:</strong></p>
+      <p class="description"><%= @latex_template.description %></p>
+    <% end %>
+
+    <details class="code-section">
+      <summary><strong>LaTeX-Code anzeigen</strong></summary>
+      <pre class="code-block"><%= @latex_template.body %></pre>
+    </details>
+  </div>
+
+  <div class="template-actions">
+    <%= link_to "Dokument erzeugen", 
+                new_document_latex_template_path(@latex_template),
+                class: "btn-primary" %>
+
+    <% if current_user == @latex_template.user %>
+      <%= link_to "Bearbeiten", edit_latex_template_path(@latex_template), 
+                  class: "btn-secondary" %>
+      <%= button_to "Löschen", @latex_template, 
+                    method: :delete, 
+                    data: { confirm: "Sicher?" },
+                    class: "btn-danger" %>
+    <% end %>
+  </div>
+
+  <p class="auth-footer">
+    <%= link_to "Zurück", latex_templates_path %>
+  </p>
 </div>
-
-<%= link_to "Aus diesem Template Dokument erzeugen",
-            new_document_latex_template_path(@latex_template),
-            class: "btn btn-primary" %>

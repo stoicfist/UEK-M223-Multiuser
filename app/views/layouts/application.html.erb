@@ -31,39 +31,40 @@
   </head>
 
   <body>
-    <header class="site-header" data-controller="theme">
+    <header class="site-header">
       <div class="brand">LaTeXHub</div>
 
-      <button
-        class="theme-toggle"
-        type="button"
-        aria-label="Theme umschalten"
-        data-action="click->theme#toggle"
-        data-theme-target="button">
-        🌙 Dark
-      </button>
+      <nav class="nav-links">
+        <%= link_to "Home", root_path %>
+        <%= link_to "Templates", latex_templates_path %>
+        <%= link_to "Documents", documents_path %>
+        <% if policy(User).index? %>
+          <%= link_to "Benutzerverwaltung", admin_users_path %>
+        <% end %>
+      </nav>
+
+      <div class="user-menu">
+        <% if current_user %>
+          <span class="user-email"><%= current_user.email %></span>
+          <%= link_to "Profil", account_path %>
+          <%= link_to "Passwort ändern", edit_password_account_path %>
+          <%= link_to "Logout", logout_path, data: { turbo_method: :delete, turbo_confirm: "Abmelden?" } %>
+        <% else %>
+          <%= link_to "Login", login_path %>
+          <%= link_to "Registrieren", new_user_path %>
+        <% end %>
+        <button data-controller="theme"
+                data-action="click->theme#toggle"
+                data-theme-button-target="button"
+                class="theme-toggle">🌙 Dark</button>
+      </div>
     </header>
 
-    <p style="margin: 8px 0;">
-      <% if policy(User).index? %>
-        <%= link_to "Benutzerverwaltung", admin_users_path %>
-      <% end %>
-      
-      <% if logged_in? %>
-        Eingeloggt als <%= current_user.email %> ·
-        <%= link_to "Profil", account_path %> ·
-        <%= link_to "Passwort ändern", edit_password_account_path %> ·
-        <%= button_to "Logout", logout_path, method: :delete,
-              form: { data: { turbo_confirm: "Abmelden?" } }, class: "btn" %>
-      <% else %>
-        <%= link_to "Login", login_path %> |
-        <%= link_to "Registrieren", new_user_path %>
-      <% end %>
-    </p>
+    <% if notice %><p class="notice"><%= notice %></p><% end %>
+    <% if alert  %><p class="alert"><%= alert  %></p><% end %>
 
-    <% if notice %><p style="color: green"><%= notice %></p><% end %>
-    <% if alert  %><p style="color: red"><%= alert  %></p><% end %>
-
-    <%= yield %>
+    <main class="site-content">
+      <%= yield %>
+    </main>
   </body>
 </html>

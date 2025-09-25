@@ -28,26 +28,93 @@
 }
 
 html[data-theme="dark"] {
-  --bg: #0f0f10;
-  --fg: #eaeaea;
-  --muted: #a9a9a9;
+  /* Grundfarben */
+  --bg: #0f141a;          /* dunkles Slate */
+  --fg: #e6e9ee;          /* fast weiß */
+  --muted: #a7b2c0;
 
-  --card-bg: #1e1e1e;
-  --card-fg: #eaeaea;
-  --card-border: #2c2c2c;
+  /* Karte/Container */
+  --card-bg: #1a2230;     /* dunkles Blau-Grau */
+  --card-fg: #e6e9ee;
+  --card-border: #273247;
 
-  --input-bg: #2a2a2a;
-  --input-fg: #eaeaea;
-  --input-border: #555;
+  /* Inputs */
+  --input-bg: #202a3a;
+  --input-fg: #e6e9ee;
+  --input-border: #334158;
 
-  --btn-bg: #f9a825;
-  --btn-fg: #0b0b0b;
+  /* Akzent (Buttons/Links) – kühles Blau */
+  --btn-bg: #3b82f6;      /* blue-500 */
+  --btn-fg: #0b1220;
   --btn-border: transparent;
-  --btn-bg-hover: #f57f17;
+  --btn-bg-hover: #2563eb;/* blue-600 */
 
-  --link: #8ab4f8;
-  --shadow: 0 6px 18px rgba(0,0,0,.55);
+  --link: #93c5fd;        /* light blue */
+  --shadow: 0 8px 24px rgba(0,0,0,.6);
 }
+
+/* ===== Navbar / Site Header ===== */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card-bg);
+  color: var(--card-fg);
+  padding: .7rem 1.2rem;
+  border-bottom: 2px solid var(--card-border);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+.nav-links a {
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav-links a:hover { color: var(--link); }
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .95rem;
+}
+.user-menu .user-email {
+  font-weight: 600;
+  color: var(--muted);
+}
+.user-menu a {
+  color: var(--link);
+  text-decoration: none;
+}
+.user-menu a:hover { text-decoration: underline; }
+
+.theme-toggle {
+  border: 1.5px solid var(--card-border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: 8px;
+  padding: .3rem .6rem;
+  cursor: pointer;
+  /* Stelle sicher dass diese nicht da steht: */
+  /* pointer-events: none; */
+  /* opacity: 0.5; */
+}
+.theme-toggle:hover {
+  background: color-mix(in oklab, var(--link) 14%, transparent);
+}
+
 
 /* ========== Base ========== */
 html, body {
@@ -80,7 +147,7 @@ body {
 .auth-container {
   max-width: 420px;
   margin: 4rem auto;
-  padding: 1.6rem;
+  padding: 1.6rem 2rem;
   border-radius: 12px;
   background: var(--card-bg);
   color: var(--card-fg);
@@ -113,6 +180,7 @@ body {
 
 .form-group input {
   width: 100%;
+  box-sizing: border-box;
   padding: .6rem .7rem;
   border: 2px solid var(--input-border);
   border-radius: 8px;
@@ -169,3 +237,156 @@ body {
     background-color: #f57f17;
   }
 }
+
+/* ========== Templates: Layout & Karten ========== */
+.page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.25rem;
+  padding: 1rem;
+}
+
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+  margin: .25rem 0 1rem;
+}
+
+.filter-panel {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  height: fit-content;
+}
+
+.filter-panel h3 {
+  margin: 0 0 .75rem;
+  font-size: 1.1rem; font-weight: 700;
+}
+
+.filter-form .form-group { margin-bottom: .9rem; }
+.filter-form .inline { display: inline-flex; align-items: center; gap: .35rem; margin-right: .8rem; }
+.filter-form .actions { display: flex; gap: .6rem; }
+
+.templates-area h1 { margin: .25rem 0; }
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.template-card {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.template-card header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: .75rem;
+}
+
+.template-card h3 {
+  margin: 0; font-size: 1.05rem; font-weight: 800;
+}
+
+.badge {
+  font-size: .72rem;
+  text-transform: lowercase;
+  border-radius: 999px;
+  padding: .15rem .5rem;
+  border: 1.5px solid var(--card-border);
+  background: color-mix(in oklab, var(--link) 22%, transparent);
+}
+
+.badge.public  { opacity: .95; }
+.badge.private { opacity: .65; }
+
+.template-card .description {
+  margin: .6rem 0 1rem; color: var(--muted);
+  min-height: 2.6em;
+}
+
+.template-card footer {
+  display: flex; gap: .6rem; justify-content: flex-end;
+}
+
+/* sekundärer Button */
+.btn-secondary {
+  appearance: none;
+  border: 2px solid var(--card-border);
+  background: transparent;
+  color: var(--fg);
+  font-weight: 600;
+  padding: .55rem .8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: color-mix(in oklab, var(--link) 14%, transparent); }
+
+.empty-state {
+  border: 2px dashed var(--card-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ===== Template Show Page ===== */
+.template-show {
+  text-align: left;
+}
+
+.template-details {
+  margin: 1rem 0 1.5rem;
+}
+
+.template-details .description {
+  margin: .4rem 0 1rem;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.code-section {
+  margin-top: 1rem;
+}
+
+.code-block {
+  background: var(--input-bg);
+  color: var(--input-fg);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--card-border);
+  max-height: 400px;
+  overflow: auto;
+  font-family: monospace;
+  font-size: .9rem;
+}
+
+.template-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+
+/* Danger Button */
+.btn-danger {
+  appearance: none;
+  border: 2px solid #b91c1c;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 700;
+  padding: .6rem .9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-danger:hover { background: #b91c1c; }
+

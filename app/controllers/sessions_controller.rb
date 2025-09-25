@@ -11,10 +11,9 @@ class SessionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  
   def destroy
     reset_session
     redirect_to root_path, notice: "Abgemeldet."
   end
 end
-
-

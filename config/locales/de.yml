@@ -27,3 +27,12 @@ de:
       user:
         email: "E-Mail"
         username: "Benutzername"
+
+  date:
+    formats:
+      short: "%d.%m.%Y"
+      long:  "%A, %d. %B %Y"
+  time:
+    formats:
+      short: "%d.%m.%Y %H:%M"
+      long:  "%A, %d. %B %Y, %H:%M %Z"

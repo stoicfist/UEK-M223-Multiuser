@@ -1,15 +1,60 @@
-<p style="color: green"><%= notice %></p>
-<% content_for :title, "Templates" %>
-<h1>Templates</h1>
+<% content_for :title, "Öffentliche Templates" %>
 
-<div id="templates">
-  <% @latex_templates.each do |lt| %>
-    <h2><%= lt.title %></h2>
-    <p><%= lt.visibility %></p>
-    <%= link_to "Show", latex_template_path(lt) %> |
-    <%= link_to "Dokument erzeugen", new_document_latex_template_path(lt) %>
-    <hr>
-  <% end %>
+<div class="page">
+  <!-- Sidebar: Filter -->
+  <aside class="filter-panel">
+    <h3>Filter</h3>
+    <%= form_with url: latex_templates_path, method: :get, local: true, class: "filter-form" do |f| %>
+      <div class="form-group">
+        <%= f.label :q, "Suche" %>
+        <%= f.text_field :q, value: params[:q], placeholder: "Titel oder Beschreibung…" , class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <span class="label" style="display:block;font-weight:600;margin-bottom:.35rem;">Sichtbarkeit</span>
+        <label class="inline"><%= f.radio_button :visibility, "public",  checked: params[:visibility] == "public" %> public</label>
+        <label class="inline"><%= f.radio_button :visibility, "private", checked: params[:visibility] == "private" %> private</label>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :owner, "Eigentümer" %>
+        <%= f.text_field :owner, value: params[:owner], placeholder: "E-Mail oder Name", class: "form-control" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Anwenden", class: "btn-primary" %>
+        <%= link_to "Zurücksetzen", latex_templates_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </aside>
+
+  <!-- Main: Grid -->
+  <main class="templates-area">
+    <div class="toolbar">
+      <h1>Öffentliche Templates</h1>
+      <%= link_to "Neues Template", new_latex_template_path, class: "btn-primary" %>
+    </div>
+
+    <% if @latex_templates.blank? %>
+      <div class="empty-state">Keine Templates gefunden.</div>
+    <% else %>
+      <div class="templates-grid">
+        <% @latex_templates.each do |lt| %>
+          <article class="template-card" id="<%= dom_id(lt) %>">
+            <header>
+              <h3><%= lt.title %></h3>
+              <span class="badge <%= lt.visibility %>"><%= lt.visibility %></span>
+            </header>
+
+            <p class="description"><%= truncate(lt.description.to_s, length: 120) %></p>
+
+            <footer>
+              <%= link_to "Anzeigen", latex_template_path(lt), class: "btn-secondary" %>
+              <%= link_to "Dokument", new_document_latex_template_path(lt), class: "btn-primary" %>
+            </footer>
+          </article>
+        <% end %>
+      </div>
+    <% end %>
+  </main>
 </div>
-
-<%= link_to "New template", new_latex_template_path %>
