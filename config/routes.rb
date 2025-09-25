@@ -1,40 +1,44 @@
+# config/routes.rb
 Rails.application.routes.draw do
-  resources :documents
-  resources :templates
-  get "sessions/new"
-  get "sessions/create"
-  get "sessions/destroy"
-  get "users/new"
-  get "users/create"
+  root "latex_templates#index"
 
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Auth
+  resources :users,    only: [:new, :create]
+  resources :sessions, only: [:new, :create, :destroy]
+  get    "login"  => "sessions#new"
+  delete "logout" => "sessions#destroy"
 
-  root "templates#index"
-
+  # Admin
   namespace :admin do
-    resources :users, only: [ :index, :edit, :update ] do
+    resources :users, only: [:index, :edit, :update] do
       member { patch :update_role }
     end
   end
 
-  resources :users, only: [ :new, :create ]
-  resources :sessions, only: [ :new, :create ]
-  get    "login"  => "sessions#new"
-  delete "logout" => "sessions#destroy"
-
-  resources :templates do
-    post :clone_to_document, on: :member
+  # Account / Profil
+  resource :account, controller: "users", only: [:show, :edit, :update] do
+    get   :edit_password
+    patch :update_password
+    post  :email_change
   end
-  resources :documents do
+  get "/email_change/confirm/:token", to: "users#confirm_email", as: :confirm_email_change
+
+  # Kern-Modelle  ⬇️  (PLURAL!)
+  resources :latex_templates do
     member do
-      get :export_zip
+      get  :new_document
+      post :create_document
+      post :clone_to_document
     end
   end
 
-  resource :account, controller: "users", only: [ :show, :edit, :update ] do
-    get   :edit_password
-    patch :update_password
-    post  :email_change       # neue E-Mail anstossen (Bestätigungslink)
+  # Weiterleitungen alter URLs → neue Ressource
+  get "/templates",            to: redirect("/latex_templates")
+  get "/templates/new",        to: redirect("/latex_templates/new")
+  get "/templates/:id",        to: redirect { |p,_| "/latex_templates/#{p[:id]}" }
+  get "/templates/%{id}/edit", to: redirect("/latex_templates/%{id}/edit")
+
+  resources :documents do
+    member { get :export_zip }
   end
-  get "/email_change/confirm/:token", to: "users#confirm_email", as: :confirm_email_change
 end

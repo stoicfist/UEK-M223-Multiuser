@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # Rolle nur aus erlaubter Liste
   validates :role, inclusion: { in: ROLES }, allow_blank: true
 
-  has_many :templates, dependent: :destroy
+  has_many :latex_templates, dependent: :destroy
   has_many :documents, dependent: :destroy
 
   enum :role, { user: "user", moderator: "moderator", admin: "admin" }, prefix: true

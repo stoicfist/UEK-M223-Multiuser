@@ -46,12 +46,20 @@ class DocumentsController < ApplicationController
 
   # Export to zip
   def export_zip
-  require "zip"
+    require "zip"
 
-  buffer = Zip::OutputStream.write_buffer do |zos|
-    zos.put_next_entry("main.tex")
-    zos.write @document.body.to_s
+    buffer = Zip::OutputStream.write_buffer do |zos|
+      # main.tex – immer mit compiled_body (fallback auf body falls leer)
+      zos.put_next_entry("main.tex")
+      zos.write(@document.compiled_body.presence || @document.body.to_s)
+
+      # optionales Bild ins Unterverzeichnis images/
+      if @document.image.attached?
+        zos.put_next_entry("images/#{@document.image.filename}")
+        zos.write(@document.image.download)
+      end
   end
+  
   buffer.rewind
 
   send_data buffer.string,

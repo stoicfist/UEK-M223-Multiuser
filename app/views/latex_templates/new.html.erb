@@ -1,0 +1,36 @@
+<% content_for :title, "New template" %>
+<h1>New template</h1>
+
+<%= form_with model: @latex_template do |f| %>
+  <div>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :visibility %><br>
+    <%= f.select :visibility, LatexTemplate.visibilities.keys %>
+  </div>
+
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_area :description, rows: 4 %>
+  </div>
+
+  <div>
+    <%= f.label :body, "LaTeX-Body", style: "display:block" %>
+    <%= f.text_area :body, rows: 20 %>
+  </div>
+
+  <p><small>
+    Platzhalter: <code>{{ first_name }}</code>, <code>{{ last_name }}</code>, <code>{{ date }}</code>.<br>
+    Optionales Bild:
+    <code>{% if image_path %}\includegraphics[width=\textwidth]{ {{ image_path }} }{% endif %}</code>
+  </small></p>
+
+  <div>
+    <%= f.submit "Create Latex template" %>
+  </div>
+<% end %>
+
+<%= link_to "Back", latex_templates_path %>

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h2><%= @latex_template.title %></h2>
+<p><strong>Visibility:</strong> <%= @latex_template.visibility %></p>
+<p><strong>Description:</strong> <%= @latex_template.description %></p>
+<p><strong>Body:</strong><br><pre><%= @latex_template.body %></pre></p>
+
+<div>
+  <%= link_to "Edit", edit_latex_template_path(@latex_template) %> |
+  <%= link_to "Back", latex_templates_path %>
+  <%= button_to "Destroy", @latex_template, method: :delete, data: { confirm: "Sicher?" } %>
+</div>
+
+<%= link_to "Aus diesem Template Dokument erzeugen",
+            new_document_latex_template_path(@latex_template),
+            class: "btn btn-primary" %>

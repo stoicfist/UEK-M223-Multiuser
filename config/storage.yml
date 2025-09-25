@@ -1,0 +1,13 @@
+# config/storage.yml
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+# (optional) production – vorerst auch lokal:
+production:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>

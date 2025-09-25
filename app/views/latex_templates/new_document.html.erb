@@ -1,0 +1,14 @@
+<h1>Aus Template erzeugen: <%= @latex_template.title %></h1>
+
+<%= form_with url: create_document_latex_template_path(@latex_template),
+              scope: :document, multipart: true do |f| %>
+  <div>Title:   <%= f.text_field :title,      value: @prefill[:title] %></div>
+  <div>Vorname: <%= f.text_field :first_name, value: @prefill[:first_name] %></div>
+  <div>Nachname:<%= f.text_field :last_name,  value: @prefill[:last_name] %></div>
+  <div>Datum:   <%= f.text_field :date,       value: @prefill[:date] %></div>
+
+  <div>Optionales Bild: <%= f.file_field :image %></div>
+  <p><small>Wird automatisch mit \includegraphics eingebettet.</small></p>
+
+  <%= f.submit "Dokument erzeugen" %>
+<% end %>

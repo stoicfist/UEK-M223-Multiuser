@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+<% content_for :title, "Templates" %>
+<h1>Templates</h1>
+
+<div id="templates">
+  <% @latex_templates.each do |lt| %>
+    <h2><%= lt.title %></h2>
+    <p><%= lt.visibility %></p>
+    <%= link_to "Show", latex_template_path(lt) %> |
+    <%= link_to "Dokument erzeugen", new_document_latex_template_path(lt) %>
+    <hr>
+  <% end %>
+</div>
+
+<%= link_to "New template", new_latex_template_path %>

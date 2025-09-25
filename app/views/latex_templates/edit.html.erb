@@ -1,0 +1,5 @@
+<% content_for :title, "Editing template" %>
+<h1>Edit template</h1>
+<%= render "form", latex_template: @latex_template %>
+<%= link_to "Back", latex_templates_path %>
+<%= link_to "Show", @latex_template %>

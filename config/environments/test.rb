@@ -39,6 +39,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Store uploaded files on the local file system (see config/storage.yml for options).
+  config.active_storage.service = :test
+  
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
