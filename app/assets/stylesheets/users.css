@@ -1,20 +1,3 @@
-/* ===== Theme Tokens (unverändert) ===== */
-:root{
-  --bg:#f6f7f9; --fg:#222; --muted:#666;
-  --card-bg:#f9a825; --card-fg:#222; --card-border:#1d1d1d;
-  --input-bg:#fff; --input-fg:#111; --input-border:#444;
-  --btn-bg:#444; --btn-fg:#fff; --btn-border:#222; --btn-bg-hover:#222;
-  --link:#1a73e8; --shadow:0 10px 30px rgba(0,0,0,.18);
-  --radius:14px; --radius-sm:10px; --pad:1rem;
-}
-html[data-theme="dark"]{
-  --bg:#0f141a; --fg:#e6e9ee; --muted:#a7b2c0;
-  --card-bg:#1a2230; --card-fg:#e6e9ee; --card-border:#273247;
-  --input-bg:#202a3a; --input-fg:#e6e9ee; --input-border:#334158;
-  --btn-bg:#3b82f6; --btn-fg:#0b1220; --btn-border:transparent; --btn-bg-hover:#2563eb;
-  --link:#93c5fd; --shadow:0 18px 40px rgba(0,0,0,.55);
-}
-
 body{background:var(--bg); color:var(--fg);}
 
 /* ===== Page/Card ===== */
