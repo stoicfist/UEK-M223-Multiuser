@@ -7,29 +7,34 @@
 
     <%= form_with url: latex_templates_path, method: :get, local: true, class: "filter-form" do %>
       <div class="form-group">
-        <label>Suche</label>
-        <input type="text" name="q" value="<%= params[:q] %>" class="input" placeholder="Titel oder Beschreibung…">
+        <%= label_tag :q, "Suche" %>
+        <%= text_field_tag :q, params[:q], placeholder: "Titel oder Beschreibung...", class: "input" %>
       </div>
 
       <div class="form-group">
-        <label>Sichtbarkeit</label>
-        <div class="radio">
-          <%= radio_button_tag :visibility, "public", params[:visibility] == "public", id: "vis_public" %>
-          <%= label_tag "vis_public", "public" %>
-        </div>
-        <div class="radio">
-          <%= radio_button_tag :visibility, "private", params[:visibility] == "private", id: "vis_private" %>
-          <%= label_tag "vis_private", "private" %>
+        <div class="label">Sichtbarkeit</div>
+        <div class="radios two-col">
+          <input  type="radio" id="vis_all"    name="visibility" value=""
+                  <%= "checked" if params[:visibility].blank? %>>
+          <label for="vis_all">alle</label>
+
+          <input  type="radio" id="vis_pub"    name="visibility" value="public"
+                  <%= "checked" if params[:visibility] == "public" %>>
+          <label for="vis_pub">public</label>
+
+          <input  type="radio" id="vis_priv"   name="visibility" value="private"
+                  <%= "checked" if params[:visibility] == "private" %>>
+          <label for="vis_priv">private</label>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Eigentümer</label>
-        <input type="text" name="owner" value="<%= params[:owner] %>" class="input" placeholder="E-Mail oder Name">
+        <%= label_tag :owner_email, "Eigentümer" %>
+        <%= text_field_tag :owner_email, params[:owner_email], placeholder: "E-Mail oder Name", class: "input" %>
       </div>
 
       <div class="actions">
-        <button class="btn" type="submit">Anwenden</button>
+        <%= submit_tag "Anwenden", class: "btn" %>
         <%= link_to "Zurücksetzen", latex_templates_path, class: "btn ghost" %>
       </div>
     <% end %>

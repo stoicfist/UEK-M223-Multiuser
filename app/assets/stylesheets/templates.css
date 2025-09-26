@@ -29,7 +29,7 @@
 
 .filter-form .form-group { margin-bottom: .9rem; }
 .filter-form .inline { display: inline-flex; align-items: center; gap: .35rem; margin-right: .8rem; }
-.filter-form .actions { display: flex; gap: .6rem; }
+.filter-form .actions { display: flex; gap: .6rem; margin-top: .6rem; }
 
 /* Radio-Reihe: eng, baseline-bündig */
 .filter-form .radio{
@@ -45,6 +45,19 @@
 .filter-form .radio label{
   margin:0;            /* falls global Labels margin haben */
   line-height:1.1;
+}
+
+/* Radio-Buttons vertikal untereinander */
+.filter-form .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.filter-form .radio {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 0;
 }
 
 /* Input-Optik (optional – falls noch nicht vorhanden) */
@@ -189,4 +202,28 @@
   font-size: .95rem;
   font-weight: 600;
   color: var(--muted);
+}
+
+/* Radios sauber untereinander, Punkte in einer Spalte, Text rechts */
+.filter-form .radios.two-col{
+  display:grid;
+  grid-template-columns: 18px auto; /* linke Spalte Punkt, rechte Text */
+  row-gap:.35rem;
+  column-gap:.5rem;
+  align-items:center;              /* vertikal zentriert */
+  margin:.25rem 0;
+}
+
+/* Radio-Button-Defaults neutralisieren */
+.filter-form input[type="radio"]{
+  margin:0;                        /* Browser-Default weg */
+  width:16px; height:16px;         /* konsistent groß */
+  vertical-align:middle;
+  accent-color: var(--btn-bg);     /* hübsche Farbe (optional) */
+}
+
+/* Labels eng an den Punkt, ohne Extramargins */
+.filter-form .radios.two-col label{
+  margin:0;
+  line-height:1.2;
 }

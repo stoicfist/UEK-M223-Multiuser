@@ -3,7 +3,25 @@ class LatexTemplatesController < ApplicationController
   before_action :set_latex_template, only: %i[show edit update destroy clone_to_document new_document create_document]
 
   def index
-    @latex_templates = policy_scope(LatexTemplate) # Pundit
+    permitted = params.permit(:q, :visibility, :owner_email)
+    @latex_templates = policy_scope(LatexTemplate).order(created_at: :desc)
+
+    # Suche im Titel/Beschreibung
+    if permitted[:q].present?
+      q = "%#{permitted[:q]}%"
+      @latex_templates = @latex_templates.where("title ILIKE ? OR description ILIKE ?", q, q)
+    end
+
+    # Sichtbarkeit filtern
+    if permitted[:visibility].present? && %w[public private].include?(permitted[:visibility])
+      @latex_templates = @latex_templates.where(visibility: permitted[:visibility])
+    end
+
+    # (optional) Eigentümer per E-Mail
+    if permitted[:owner_email].present?
+      @latex_templates = @latex_templates.joins(:user)
+                                         .where("users.email ILIKE ?", "%#{permitted[:owner_email]}%")
+    end
   end
 
   def show
