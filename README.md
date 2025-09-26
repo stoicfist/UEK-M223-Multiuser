@@ -1,35 +1,83 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Voraussetzungen
 
-Things you may want to cover:
+- **Ruby Version:** 3.x (empfohlen, siehe `.ruby-version` falls vorhanden)
+- **Rails Version:** 8.x
+- **Systemabhängigkeiten:**  
+  - Node.js (nur für Entwicklungs-Tools, nicht für Asset-Build)
+  - SQLite/PostgreSQL (je nach Umgebung)
+- **Gems:**  
+  - `pundit` (Rollen & Rechte)
+  - `paper_trail` (Audit-Log)
+  - `chartkick`, `groupdate` (Diagramme)
+  - `kaminari` (Pagination)
+  - `liquid` (Template-Rendering)
+  - `bcrypt` (Passwort-Hashing)
+  - `rubyzip` (ZIP-Export)
+  - `rspec-rails`, `factory_bot_rails`, `faker` (Tests)
+  - `importmap-rails`, `turbo-rails`, `stimulus-rails` (JS-Framework)
 
-* Ruby version
+## Setup
 
-* System dependencies
+1. **Abhängigkeiten installieren:**
+   ```sh
+   bundle install
+   bin/setup
+   ```
 
-* Configuration
+2. **DB anlegen & migrieren:**
+   ```sh
+   rails db:create db:migrate db:seed
+   ```
 
-* Database creation
+3. **Admin-Konto anlegen:**
+   Siehe unten oder führe das Snippet in der Rails-Konsole aus.
 
-* Database initialization
+4. **Server starten:**
+   ```sh
+   bin/dev
+   ```
 
-* How to run the test suite
+## Features
 
-* Services (job queues, cache servers, search engines, etc.)
+- Benutzerverwaltung (Registrierung, Login, Rollen, Profil)
+- Templates (LaTeX) mit Filter, Suche, Sichtbarkeit (public/private)
+- Dokumente aus Templates erzeugen
+- Audit-Log (Änderungen, Nutzer, Zeit, Event)
+- Diagramme (Aktivität je Tag, Typ, Nutzer, Ereignis)
+- Responsive UI, modernes Design (Importmap, Hotwire, modulares CSS)
+- Admin-Bereich mit Benutzer- und Aktivitätsverwaltung
+- ZIP-Export für Dokumente
+- Passwort-Reset, E-Mail-Änderung
+- Pundit-Policies für Rechte
 
-* Deployment instructions
+## Tests
 
-* ...
+- RSpec, FactoryBot, Faker
+- Test-Suite:  
+  ```sh
+  bundle exec rspec
+  ```
 
-# ADMIN Konto huinzufügen:
+## Deployment
+
+- Standard Rails-Deployment (z.B. mit Docker, Kamal, Heroku)
+- Keine JS-Bundler nötig (Importmap-Setup)
+
+---
+
+# ADMIN Konto hinzufügen:
 db/seeds.rb (Kurzform)
 
-latexhub(dev)> u = User.find_or_initialize_by(email: "admin@example.com")
-latexhub(dev)> u.username = "Admin"
-latexhub(dev)> u.role     = "admin"
-latexhub(dev)> u.password = "SuperSicheresPasswort!"
-latexhub(dev)> u.password_confirmation = "SuperSicheresPasswort!"
-latexhub(dev)> u.save!
-latexhub(dev)> exit
+```sh
+   bin/rails c
+   ```
+```ruby
+u = User.find_or_initialize_by(email: "admin@example.com")
+u.username = "Admin"
+u.role     = "admin"
+u.password = "SuperSicheresPasswort!"
+u.password_confirmation = "SuperSicheresPasswort!"
+u.save!
+```
