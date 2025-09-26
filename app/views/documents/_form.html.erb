@@ -1,30 +1,32 @@
 <%= form_with model: document,
               local: true,
-              html: { class: "doc-form" } do |f| %>
+              html: { class: "doc-form", multipart: true } do |f| %>
 
   <% if document.errors.any? %>
     <div class="form-errors">
       <strong><%= pluralize(document.errors.count, "Fehler") %>:</strong>
       <ul>
-        <% document.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+        <% document.errors.full_messages.each do |m| %>
+          <li><%= m %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="form-grid">
     <div class="form-group">
-      <label for="doc_title">Titel</label>
+      <%= f.label :title, "Titel", for: "doc_title" %>
       <%= f.text_field :title, id: "doc_title", class: "input" %>
     </div>
 
     <div class="form-group">
-      <label for="doc_template">Template-ID</label>
+      <%= f.label :template_id, "Template-ID", for: "doc_template" %>
       <%= f.number_field :template_id, id: "doc_template", class: "input" %>
       <small class="help">Von welchem Template stammt dieses Dokument?</small>
     </div>
 
     <div class="form-group" style="grid-column:1/-1">
-      <%= f.label :body, "Body (optional / frei)" %>
+      <%= f.label :body, "Body (optional / frei)", for: "doc_body" %>
       <%= f.text_area :body, id: "doc_body", rows: 8, class: "input" %>
       <small class="help">
         Wenn das Dokument aus einem Template erzeugt wurde, steht der gerenderte Inhalt unten als Vorschau.
@@ -33,12 +35,11 @@
 
     <% if document.respond_to?(:compiled_body) && document.compiled_body.present? %>
       <div class="form-group" style="grid-column:1/-1">
-        <label for="compiled_preview">Gerenderter Inhalt (readonly)</label>
+        <%= label_tag :compiled_preview, "Gerenderter Inhalt (readonly)" %>
         <textarea id="compiled_preview"
                   class="input"
                   rows="14"
                   readonly><%= document.compiled_body %></textarea>
-
         <div class="form-actions" style="justify-content:flex-start;margin-top:.5rem">
           <button type="button"
                   class="btn ghost"
@@ -49,7 +50,30 @@
         </div>
       </div>
     <% end %>
+
+    <div class="form-group">
+      <%= f.label :image, "Optionales Bild", for: "document_image" %>
+      <%= f.file_field :image,
+            accept: "image/*",
+            id: "document_image",
+            class: "input" %>
+      <small class="help">Wird automatisch mit \includegraphics eingebettet.</small>
+    </div>
   </div>
+
+  <script>
+    // simpler Client-Check: blockt Nicht-Bilder sofort
+    document.addEventListener("change", function (e) {
+      const inp = e.target;
+      if (inp && inp.id === "document_image" && inp.files && inp.files[0]) {
+        const f = inp.files[0];
+        if (!/^image\//.test(f.type)) {
+          alert("Bitte wähle eine Bilddatei (PNG/JPG/WebP/GIF).");
+          inp.value = ""; // Auswahl zurücksetzen
+        }
+      }
+    }, { once: false, passive: true });
+  </script>
 
   <div class="form-actions">
     <%= f.submit (document.persisted? ? "Dokument aktualisieren" : "Dokument anlegen"), class: "btn" %>

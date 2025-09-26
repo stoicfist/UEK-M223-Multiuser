@@ -44,10 +44,9 @@
   <section class="tpl-generate">
     <h2>Dokument aus Template erzeugen</h2>
     <%= form_with url: documents_path,
+                  scope: :document,
                   method: :post,
-                  local: true,
-                  multipart: true,
-                  html: { class: "doc-gen-form" } do |f| %>
+                  html: { class: "doc-gen-form", multipart: true } do |f| %>
       <%= hidden_field_tag "document[template_id]", @latex_template.id %>
       <div class="form-grid">
         <div class="form-group">
@@ -67,14 +66,35 @@
           <%= text_field_tag "document[params][last_name]", nil, id: "doc_last", class: "input" %>
         </div>
         <div class="form-group" style="grid-column:1/-1">
-          <label for="doc_image">Optionales Bild</label>
-          <%= file_field_tag "document[image]", id: "doc_image", class: "input" %>
+          <%= f.label :image, "Optionales Bild" %>
+          <%= f.file_field :image,
+                accept: "image/*",
+                id: "doc_image",
+                class: "input" %>
           <small class="help">Wird automatisch mit \includegraphics eingebettet.</small>
+          <img id="doc_image_preview" style="display:none;max-width:240px;margin-top:.5rem" />
         </div>
       </div>
       <div class="form-actions" style="display:flex;justify-content:flex-end;margin-top:.8rem">
         <%= f.submit "Dokument erzeugen", class: "btn" %>
       </div>
     <% end %>
+
+    <script>
+    document.addEventListener("change", function (e) {
+      if (e.target && e.target.id === "doc_image" && e.target.files && e.target.files[0]) {
+        const f = e.target.files[0];
+        if (!/^image\//.test(f.type)) {
+          alert("Bitte wähle eine Bilddatei (PNG/JPG/WebP/GIF).");
+          e.target.value = "";
+          document.getElementById("doc_image_preview").style.display = "none";
+          return;
+        }
+        const img = document.getElementById("doc_image_preview");
+        img.src = URL.createObjectURL(f);
+        img.style.display = "block";
+      }
+    }, { passive: true });
+    </script>
   </section>
 </div>
