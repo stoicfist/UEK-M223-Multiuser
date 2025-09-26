@@ -1,8 +1,14 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+  
+  before_action :set_paper_trail_whodunnit
+
+  # Extra-Info für PaperTrail-Versionen (IP & User-Agent speichern)
+  def info_for_paper_trail
+    { ip: request.remote_ip, user_agent: request.user_agent }
+  end
 
   helper_method :current_user, :logged_in?
-
   # ---- Auth-Helpers ----
   def current_user
     @current_user ||= User.find_by(id: session[:user_id])

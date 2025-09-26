@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :edit, :update] do
       member { patch :update_role }
     end
+    resources :activities, only: [:index, :show]
   end
+  
 
   # Account / Profil
   resource :account, controller: "users", only: [:show, :edit, :update] do

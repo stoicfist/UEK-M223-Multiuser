@@ -46,6 +46,9 @@
         <% if policy(User).index? %>
           <%= link_to "Benutzerverwaltung", admin_users_path %>
         <% end %>
+        <% if current_user&.role == "admin" %>
+          <%= link_to "Aktivitäten", admin_activities_path %>
+        <% end %>
       </nav>
 
       <div class="user-menu">

@@ -32,6 +32,10 @@ class User < ApplicationRecord
   def moderator?  = role_moderator?
   def user?       = role_user?
 
+  # Für Anzeigezwecke
+  def display_name
+    username.presence || email
+  end
 
   # --- E-Mail-Änderung ---
   def start_email_change!(new_email)

@@ -1,0 +1,72 @@
+<% content_for :title, "Aktivitäten" %>
+
+<div class="form-page">
+  <section class="form-card">
+    <header class="form-toolbar">
+      <h1>Aktivitätsprotokoll</h1>
+      <div class="toolbar-actions">
+        <!-- simple Filter -->
+        <%= form_with url: admin_activities_path, method: :get, class: "inline" do |f| %>
+          <%= f.select :type, options_for_select(
+                [["Alle Typen",""], ["Document","Document"], ["LatexTemplate","LatexTemplate"]],
+                params[:type]
+              ), {}, class: "select" %>
+          <%= f.select :event, options_for_select(
+                [["alle",""],["create","create"],["update","update"],["destroy","destroy"]],
+                params[:event]
+              ), {}, class: "select" %>
+          <%= select_tag :user_id,
+                options_for_select(
+                  [['Alle Nutzer', '']] + @users.map { |u| ["#{u.display_name} (#{u.email})", u.id] },
+                  selected: params[:user_id]
+                ),
+                class: "input select" %>
+          <%= f.date_field :from, value: params[:from], class:"input" %>
+          <%= f.date_field :to,   value: params[:to],   class:"input" %>
+          <%= f.submit "Filtern", class:"btn btn-primary" %>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="nice-form">
+      <h3>Aktivität je Tag</h3>
+      <%= line_chart @activity_by_day, height: "220px", library: { tension: 0.3 } %>
+
+      <div class="table-wrap" style="margin-top:1rem">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Zeit</th>
+              <th>Nutzer</th>
+              <th>Ereignis</th>
+              <th>Typ</th>
+              <th>Objekt</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @versions.each do |v| %>
+              <tr>
+                <td><%= l v.created_at, format: :short %></td>
+                <td>
+                  <% user = User.find_by(id: v.whodunnit) %>
+                  <%= user&.email || "—" %>
+                </td>
+                <td><%= v.event %></td>
+                <td><%= v.item_type %></td>
+                <td>
+                  <% if v.item.present? %>
+                    <%= v.item.try(:title) || v.item.try(:username) || v.item_id %>
+                  <% else %>
+                    (gelöscht) ID <%= v.item_id %>
+                  <% end %>
+                </td>
+                <td><%= link_to "Details", admin_activity_path(v), class:"btn btn-ghost" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>

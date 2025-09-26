@@ -62,7 +62,19 @@ end
 gem "bcrypt", "~> 3.1"
 gem "rubyzip", "~> 3.1"
 
+# Authorization
 gem "pundit"
 
+# Templating
 gem "liquid"
+
+# Audit log
+gem "paper_trail", "~> 14.0"
+
+# Charts (simple, Rails-friendly)
+gem "chartkick"
+gem "groupdate"
+
+# Pagination
+gem "kaminari"
 

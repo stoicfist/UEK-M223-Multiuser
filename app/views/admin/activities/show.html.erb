@@ -1,0 +1,22 @@
+<% content_for :title, "Aktivität" %>
+
+<div class="form-page">
+  <section class="form-card">
+    <header class="form-toolbar">
+      <h1>Aktivität #<%= @version.id %></h1>
+      <div class="toolbar-actions">
+        <%= link_to "Zurück", admin_activities_path, class:"btn btn-ghost" %>
+      </div>
+    </header>
+
+    <div class="nice-form">
+      <p><strong>Zeit:</strong> <%= l @version.created_at, format: :long %></p>
+      <p><strong>Event:</strong> <%= @version.event %></p>
+      <p><strong>Objekt:</strong> <%= @version.item_type %> (#<%= @version.item_id %>)</p>
+      <p><strong>Nutzer:</strong> <%= User.find_by(id:@version.whodunnit)&.email || "—" %></p>
+
+      <h3>Änderungen</h3>
+      <pre class="code-block"><%= JSON.pretty_generate(@version.changeset || {}) %></pre>
+    </div>
+  </section>
+</div>

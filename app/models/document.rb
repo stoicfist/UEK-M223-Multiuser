@@ -2,6 +2,7 @@ class Document < ApplicationRecord
   belongs_to :user
   belongs_to :latex_template, class_name: "LatexTemplate", foreign_key: "template_id"
   has_one_attached :image # optionales Bild für includegraphics  
+  has_paper_trail
 
   validates :title, presence: true
    # erzeugt compiled_body aus Template + params (+ Bildpfad)
