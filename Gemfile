@@ -73,7 +73,7 @@ gem "paper_trail", "~> 14.0"
 
 # Charts (simple, Rails-friendly)
 gem "chartkick"
-gem "groupdate"
+gem "groupdate" # für @activity_by_day
 
 # Pagination
 gem "kaminari"

@@ -7,22 +7,24 @@
       <div class="toolbar-actions">
         <!-- simple Filter -->
         <%= form_with url: admin_activities_path, method: :get, class: "inline" do |f| %>
-          <%= f.select :type, options_for_select(
+          <%= f.select :item_type, options_for_select(
                 [["Alle Typen",""], ["Document","Document"], ["LatexTemplate","LatexTemplate"]],
-                params[:type]
+                params[:item_type]
               ), {}, class: "select" %>
+
           <%= f.select :event, options_for_select(
                 [["alle",""],["create","create"],["update","update"],["destroy","destroy"]],
                 params[:event]
               ), {}, class: "select" %>
+
           <%= select_tag :user_id,
-                options_for_select(
-                  [['Alle Nutzer', '']] + @users.map { |u| ["#{u.display_name} (#{u.email})", u.id] },
-                  selected: params[:user_id]
-                ),
-                class: "input select" %>
+                options_from_collection_for_select(@users || [], :id, :display_name, params[:user_id]),
+                include_blank: 'Alle Nutzer',
+                class: 'input select' %>
+
           <%= f.date_field :from, value: params[:from], class:"input" %>
           <%= f.date_field :to,   value: params[:to],   class:"input" %>
+
           <%= f.submit "Filtern", class:"btn btn-primary" %>
         <% end %>
       </div>
@@ -30,7 +32,27 @@
 
     <div class="nice-form">
       <h3>Aktivität je Tag</h3>
-      <%= line_chart @activity_by_day, height: "220px", library: { tension: 0.3 } %>
+      <%= line_chart @activity_by_day,
+            height: "220px",
+            discrete: true,
+            library: { tension: 0.3 },
+            messages: { empty: "Keine Daten im gewählten Zeitraum", loading: "Lade…" } %>
+
+      <h2>Aktivität je Ereignis</h2>
+      <%= pie_chart @activity_by_event, donut: true, legend: "bottom",
+              thousands: ".", decimal: ",",
+              messages: { empty: "Keine Daten im gewählten Zeitraum" } %>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+        <div>
+          <h3>Aktivität je Typ</h3>
+          <%= pie_chart @activity_by_model, donut: true, legend: "bottom" %>
+        </div>
+        <div>
+          <h3>Aktivität je Nutzer</h3>
+          <%= pie_chart @activity_by_user, donut: true, legend: "bottom" %>
+        </div>
+      </div>
 
       <div class="table-wrap" style="margin-top:1rem">
         <table class="table">
